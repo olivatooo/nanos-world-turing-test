@@ -56,26 +56,16 @@ end
 -- Skills dispatch table: theme -> index -> function
 local Skills = {
 	blue = { -- Faker
-		[1] = function()
-			print("Whistle skill called")
-		end,
-		[2] = function()
-			print("Taunt skill called")
-		end,
-		[3] = function()
-			print("Disguise skill called")
-		end,
-		[4] = function()
-			print("Faker skill 4 called")
-		end,
+		[1] = Whistle,
+		[2] = Taunt,
+		[3] = Disguise,
+		[4] = Clones,
 	},
 	red = { -- Hunter
 		[1] = Highlight,
 		[2] = Prisioner,
 		[3] = Blindfold,
-		[4] = function()
-			print("Sabotage skill called")
-		end,
+		[4] = Sabotage,
 	},
 }
 

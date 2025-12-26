@@ -1,25 +1,27 @@
 function SetCharacterHitBehaviour(character)
 	character:Subscribe("TakeDamage", function(self, damage, bone, type, from_direction, instigator, causer)
-		if math.random() > 0.5 then
-			local location = GetRandomVector()
-			character:MoveTo(Vector(location.x, location.y, location.z), 10)
-		end
-		if math.random() > 0.5 then
-			local location = GetRandomVector()
-			character:LookAt(Vector(location.x, location.y, location.z))
-		end
-		if math.random() > 0.8 then
-			character:PlayAnimation(GetRandomAnimation(), AnimationSlotType.UpperBody)
-		end
-		if math.random() > 0.5 then
-			character:Jump()
-		end
-		if math.random() > 0.5 then
-			character:SetGaitMode(math.random(0, 2))
-		end
-		if math.random() > 0.5 then
-			character:SetStanceMode(math.random(1, 2))
-		end
+		Timer.SetTimeout(function(_character)
+			if math.random() > 0.5 then
+				local location = GetRandomVector()
+				_character:MoveTo(Vector(location.x, location.y, location.z), 10)
+			end
+			if math.random() > 0.5 then
+				local location = GetRandomVector()
+				_character:LookAt(Vector(location.x, location.y, location.z))
+			end
+			if math.random() > 0.8 then
+				_character:PlayAnimation(GetRandomAnimation(), AnimationSlotType.UpperBody)
+			end
+			if math.random() > 0.5 then
+				_character:Jump()
+			end
+			if math.random() > 0.5 then
+				_character:SetGaitMode(math.random(0, 2))
+			end
+			if math.random() > 0.5 then
+				_character:SetStanceMode(math.random(1, 2))
+			end
+		end, math.random(250, 1000), character)
 	end)
 end
 
@@ -37,7 +39,7 @@ function SetCharacterBehaviour(character)
 			local location = GetRandomVector()
 			manny:LookAt(Vector(location.x, location.y, location.z))
 		end
-		if math.random() > 0.8 then
+		if math.random() > 0.9 then
 			manny:PlayAnimation(GetRandomAnimation(), AnimationSlotType.UpperBody)
 		end
 		if math.random() > 0.99 then
@@ -56,7 +58,7 @@ function SetCharacterBehaviour(character)
 			local to_follow = Character.GetAll()[math.random(#Character.GetAll())]
 			manny:Follow(to_follow)
 		end
-	end, math.random(250, 5000), character)
+	end, math.random(3000, 10000), character)
 	character:SetValue("my_timer", my_timer)
 end
 

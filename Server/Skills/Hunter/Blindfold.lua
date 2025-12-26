@@ -6,7 +6,7 @@ Events.SubscribeRemote("Blindfold", function(player, character)
 		CollisionType.NoCollision
 	)
 	mesh:AttachTo(character)
-	mesh:SetRelativeLocation(Vector(0, 0, 80))
+	mesh:SetRelativeLocation(Vector(0, 0, 120))
 	mesh:SetScale(Vector(0.5, 0.5, 0.5))
 	local t = Timer.SetInterval(function(_mesh)
 		_mesh:SetRelativeRotation(Rotator(0, _mesh:GetRelativeRotation().Yaw + 1, 0))

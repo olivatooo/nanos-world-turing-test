@@ -30,6 +30,21 @@ function PlaySFXAt(location, sfx)
 	)
 end
 
+function PlayNanosSFXAt(location, sfx)
+	Sound(
+		location,
+		"nanos-world::" .. sfx,
+		false, -- Is 2D Sound
+		true, -- Auto Destroy (if to destroy after finished playing)
+		SoundType.SFX,
+		1, -- Volume
+		RandomFloat(0.8, 1.2), -- Pitch
+		2000,
+		10000,
+		AttenuationFunction.NaturalSound
+	)
+end
+
 function PlayOST(number)
 	Console.Log("Playing OST " .. number)
 	if OST ~= nil and OST:IsPlaying() then
@@ -91,4 +106,5 @@ Events.SubscribeRemote("PlayTauntAt", PlayTauntAt)
 Events.SubscribeRemote("PlayOST", PlayOST)
 Events.SubscribeRemote("PlaySFXAt", PlaySFXAt)
 Events.SubscribeRemote("WOOSH", PlayWooshAt)
+Events.SubscribeRemote("PlayNanosSFXAt", PlayNanosSFXAt)
 PlayOST(math.random(1, 9))

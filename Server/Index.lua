@@ -20,20 +20,26 @@ Package.Require("Skills/Skills.lua")
 function SpawnCharacter(location)
 	local mannequin
 	if math.random() > 0.5 then
-		mannequin = Character(Vector(location.X, location.Y, 200), Rotator(0, 0, 0), "nanos-world::SK_Mannequin")
+		mannequin =
+			Character(Vector(location.X, location.Y, 200), Rotator(0, math.random(360), 0), "nanos-world::SK_Mannequin")
 	else
-		mannequin = Character(Vector(location.X, location.Y, 200), Rotator(0, 0, 0), "nanos-world::SK_Mannequin_Female")
+		mannequin = Character(
+			Vector(location.X, location.Y, 200),
+			Rotator(0, math.random(360), 0),
+			"nanos-world::SK_Mannequin_Female"
+		)
 	end
 	mannequin:SetTeam(BotTeam)
 	return mannequin
 end
 
 function SpawnBots(location, amount_x, amount_y)
-	local offset = 200
+	local offset = 300
 	for i = 1, amount_x do
 		for j = 1, amount_y do
 			local mannequin = SpawnCharacter(location + Vector(i * offset, j * offset, 0))
 			mannequin:SetAIAvoidanceSettings(false)
+			mannequin:SetCollision(CollisionType.IgnoreOnlyPawn)
 			SetCharacterAppeareance(mannequin)
 		end
 	end
@@ -147,7 +153,7 @@ function PlayOST()
 end
 
 function StartGame()
-	SpawnBots(Vector(-4020, 2115, 100), 8, 8)
+	SpawnBots(Vector(-6000, 2115, 100), 8, 8)
 	SpawnPlayers()
 	SpawnHotDogStands()
 	SpawnProps()
@@ -183,5 +189,6 @@ function SpawnHunter(player)
 		end
 	end)
 	character:SetCanDrop(false)
+	character:SetCanGrabProps(false)
 	player:Possess(character)
 end
