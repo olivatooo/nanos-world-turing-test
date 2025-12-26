@@ -40,7 +40,7 @@ Character.Subscribe(
 		end
 		if self:GetTeam() == 0 then
 			local character = instigator:GetControlledCharacter()
-			character:ApplyDamage(20)
+			character:ApplyDamage(25)
 		end
 		if self:GetTeam() == 1 then
 			self:GetPlayer():UnPossess()

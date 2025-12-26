@@ -1,9 +1,7 @@
 name: Publish to Nanos World Store
 
 on:
-  push:
-    tags:
-      - 'v*'  # Publishes when you push a version tag
+  push:  # Runs on every push
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
