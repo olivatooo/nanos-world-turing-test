@@ -1,0 +1,69 @@
+function SetCharacterHitBehaviour(character)
+	character:Subscribe("TakeDamage", function(self, damage, bone, type, from_direction, instigator, causer)
+		if math.random() > 0.5 then
+			local location = GetRandomVector()
+			character:MoveTo(Vector(location.x, location.y, location.z), 10)
+		end
+		if math.random() > 0.5 then
+			local location = GetRandomVector()
+			character:LookAt(Vector(location.x, location.y, location.z))
+		end
+		if math.random() > 0.8 then
+			character:PlayAnimation(GetRandomAnimation(), AnimationSlotType.UpperBody)
+		end
+		if math.random() > 0.5 then
+			character:Jump()
+		end
+		if math.random() > 0.5 then
+			character:SetGaitMode(math.random(0, 2))
+		end
+		if math.random() > 0.5 then
+			character:SetStanceMode(math.random(1, 2))
+		end
+	end)
+end
+
+function SetCharacterBehaviour(character)
+	SetCharacterHitBehaviour(character)
+	local my_timer = Timer.SetInterval(function(manny)
+		if manny:IsValid() == false then
+			return false
+		end
+		if math.random() > 0.5 and manny:GetMovingTo() == Vector(0, 0, 0) then
+			local location = GetRandomVector()
+			manny:MoveTo(Vector(location.x, location.y, location.z), 10)
+		end
+		if math.random() > 0.5 then
+			local location = GetRandomVector()
+			manny:LookAt(Vector(location.x, location.y, location.z))
+		end
+		if math.random() > 0.8 then
+			manny:PlayAnimation(GetRandomAnimation(), AnimationSlotType.UpperBody)
+		end
+		if math.random() > 0.99 then
+			manny:Jump()
+		end
+		if math.random() > 0.5 then
+			manny:SetStanceMode(math.random(1, 2))
+		end
+		if math.random() > 0.95 then
+			manny:SetGaitMode(math.random(0, 2))
+		end
+		if math.random() > 0.9 then
+			Events.BroadcastRemote("PlayTauntAt", manny:GetLocation(), math.random(1, 14))
+		end
+		if math.random() > 0.99 then
+			local to_follow = Character.GetAll()[math.random(#Character.GetAll())]
+			manny:Follow(to_follow)
+		end
+	end, math.random(250, 5000), character)
+	character:SetValue("my_timer", my_timer)
+end
+
+function StartBots()
+	for _, bot in pairs(Character.GetAll()) do
+		if bot:GetTeam() == BotTeam then
+			SetCharacterBehaviour(bot)
+		end
+	end
+end

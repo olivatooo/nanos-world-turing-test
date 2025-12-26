@@ -1,24 +1,16 @@
-local ret = Assets.GetMaps("polygon-city")
+Package.Require("Debug.lua")
+Package.Require("Utils.lua")
 
-for i, v in pairs(ret) do
-	print(v.key)
-end
+WebUI = WebUI(
+	"Awesome UI", -- Name
+	"file://UI/Index.html", -- Path relative to this package (Client/)
+	WidgetVisibility.Visible -- Is Visible on Screen
+)
 
--- Registers the binding_name 'SpawnMenu' with default key 'Q'
--- This will add 'SpawnMenu' to user KeyBinding Settings automatically
-Input.Register("SpawnMenu", "Q")
+WebUI:SpawnSound(Vector(), true, 1)
 
--- Subscribes for Pressing the key
-
-function Spawnshit()
-	ret = Assets.GetStaticMeshes("polygon-city")
-	for i, v in pairs(ret) do
-		Events.CallRemote(
-			"spawn-shit",
-			v.key,
-			Vector(math.random(-1000, 1000), math.random(-1000, 1000), math.random(-1000, 1000))
-		)
-	end
-end
-
-Input.Bind("SpawnMenu", InputEvent.Pressed, Spawnshit)
+Package.Require("Input.lua")
+Package.Require("SFX.lua")
+Package.Require("Binds/Scoreboard.lua")
+Package.Require("GameState.lua")
+Package.Require("Skills/Skills.lua")

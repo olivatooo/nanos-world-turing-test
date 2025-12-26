@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turing Test</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Transition Overlay -->
+    <div class="transition-overlay" id="transitionOverlay"></div>
+
+    <!-- Blindfold Overlay -->
+    <div class="blindfold-overlay" id="blindfoldOverlay">
+        <div class="blindfold-content">
+            <img src="Icons/blindfold.svg" alt="Blindfold" class="blindfold-icon">
+            <div class="blindfold-text">YOU ARE BLINDFOLDED</div>
+            <div class="blindfold-progress-bar">
+                <div class="blindfold-progress-fill" id="blindfoldProgressFill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timer (visible on all pages) -->
+    <div class="timer-container">
+        <div class="timer-label">TIME</div>
+        <div class="timer-value" id="timerValue">00:00</div>
+    </div>
+
+    <!-- Tab Navigation (visible on gameUI and scorePage) -->
+    <!-- <div class="tab-nav" id="tabNav"> -->
+    <!--     <button class="tab-button" onclick="showPage('gameUI')">Game</button> -->
+    <!--     <button class="tab-button" onclick="showPage('scorePage')">Score</button> -->
+    <!--     <button class="tab-button" onclick="showPage('shopPage')">Shop</button> -->
+    <!-- </div> -->
+
+    <!-- How To Play Page - Side by Side (Waiting For Players) -->
+    <div id="howToPlayBoth" class="page how-to-page-both">
+        <h1 class="waiting-for-players-title">Waiting for players</h1>
+        <div class="how-to-both-container">
+            <div class="how-to-side">
+                <div class="how-to-container theme-blue">
+                    <h1>How To Play - FAKER</h1>
+                    <div class="how-to-section">
+                        <h2>Objective</h2>
+                        <p>You need to deliver the items to the Hot Dog Stand.</p>
+                        <p>Watch out for hunters, blend in with the bots and pretend you are not human.</p>
+                        <p>If the timer runs out, you lose!</p>
+                    </div>
+                    <div class="how-to-section">
+                        <h2>Skills</h2>
+                        <div class="skill-list-item">
+                            <img src="Icons/whistle.svg" alt="Whistle" class="skill-list-icon blue-icon">
+                            <div>
+                                <strong>[1] Whistle</strong> (5s cooldown) - Distract hunters with a sound to create confusion.
+                            </div>
+                        </div>
+                        <div class="skill-list-item">
+                            <img src="Icons/puppet.svg" alt="Puppet" class="skill-list-icon blue-icon">
+                            <div>
+                                <strong>[2] Emote</strong> (6s cooldown) - Make a random physical emote.
+                            </div>
+                        </div>
+                        <div class="skill-list-item">
+                            <img src="Icons/prank-glasses.svg" alt="Prank Glasses" class="skill-list-icon blue-icon">
+                            <div>
+                                <strong>[3] Disguise</strong> (15s cooldown) - Change your appearance!
+                            </div>
+                        </div>
+                        <div class="skill-list-item">
+                            <img src="Icons/dark-squad.svg" alt="Dark Squad" class="skill-list-icon blue-icon">
+                            <div>
+                                <strong>[4] Dark Squad</strong> (40s cooldown) - Summon a squad of decoys to confuse hunters.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="how-to-side">
+                <div class="how-to-container theme-red">
+                    <h1>How To Play - HUNTER</h1>
+                    <div class="how-to-section">
+                        <h2>Objective</h2>
+                        <p>You need to kill all the FAKERS before they deliver all the props to the Hot Dog Stands.</p>
+                        <p>Watch out! Killing the bots will give you damage... they are expensive</p>
+                        <p>Eliminate all fakers to win! Or make them run out of time...</p>
+                    </div>
+                    <div class="how-to-section">
+                        <h2>Skills</h2>
+                        <div class="skill-list-item">
+                            <img src="Icons/highlighter.svg" alt="Highlighter" class="skill-list-icon red-icon">
+                            <div>
+                                <strong>[1] Highlighter</strong> (20s cooldown) - Mark looking at bot to track their movements for 30s
+                            </div>
+                        </div>
+                        <div class="skill-list-item">
+                            <img src="Icons/prisoner.svg" alt="Prisoner" class="skill-list-icon red-icon">
+                            <div>
+                                <strong>[2] Prisoner</strong> (30s cooldown) - Temporarily trap a target for 15s
+                            </div>
+                        </div>
+                        <div class="skill-list-item">
+                            <img src="Icons/blindfold.svg" alt="Blindfold" class="skill-list-icon red-icon">
+                            <div>
+                                <strong>[3] Blindfold</strong> (25s cooldown) - Restrict a target's vision for 10s
+                            </div>
+                        </div>
+                        <div class="skill-list-item">
+                            <img src="Icons/stopwatch.svg" alt="Sabotage" class="skill-list-icon red-icon">
+                            <div>
+                                <strong>[4] Stopwatch</strong> (40s cooldown) - Disable Hot Dog Stand you are looking at for 10s
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How To Play Page - FAKERS (Blue Theme) -->
+    <div id="howToPlayFaker" class="page how-to-page theme-blue">
+        <div class="how-to-container">
+            <h1>How To Play - FAKER</h1>
+            <div class="how-to-section">
+                <h2>Objective</h2>
+                <p>You need to deliver the items to the Hot Dog Stand.</p>
+                <p>Watch out for hunters, blend in with the bots and pretend you are not human.</p>
+                <p>If the timer runs out, you lose!</p>
+            </div>
+            <div class="how-to-section">
+                <h2>Skills</h2>
+                <div class="skill-list-item">
+                    <img src="Icons/whistle.svg" alt="Whistle" class="skill-list-icon blue-icon">
+                    <div>
+                        <strong>[1] Whistle</strong> (5s cooldown) - Distract hunters with a whistle to create confusion.
+                    </div>
+                </div>
+                <div class="skill-list-item">
+                    <img src="Icons/puppet.svg" alt="Puppet" class="skill-list-icon blue-icon">
+                    <div>
+                        <strong>[2] Puppet</strong> (6s cooldown) - Control a puppet bot to mislead hunters about your location.
+                    </div>
+                </div>
+                <div class="skill-list-item">
+                    <img src="Icons/prank-glasses.svg" alt="Prank Glasses" class="skill-list-icon blue-icon">
+                    <div>
+                        <strong>[3] Prank Glasses</strong> (15s cooldown) - Disguise yourself temporarily to look like a bot.
+                    </div>
+                </div>
+                <div class="skill-list-item">
+                    <img src="Icons/dark-squad.svg" alt="Dark Squad" class="skill-list-icon blue-icon">
+                    <div>
+                        <strong>[4] Dark Squad</strong> (40s cooldown) - Summon a squad of decoys to confuse hunters.
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- How To Play Page - HUNTERS (Red Theme) -->
+    <div id="howToPlayHunter" class="page how-to-page theme-red">
+        <div class="how-to-container">
+            <h1>How To Play - HUNTER</h1>
+            <div class="how-to-section">
+                <h2>Objective</h2>
+                <p>You need to kill all the FAKERS before they deliver all the props.</p>
+                <p>Watch out! Killing the bots will give you damage.</p>
+                <p>Eliminate all fakers to win!</p>
+            </div>
+            <div class="how-to-section">
+                <h2>Skills</h2>
+                <div class="skill-list-item">
+                    <img src="Icons/highlighter.svg" alt="Highlighter" class="skill-list-icon red-icon">
+                    <div>
+                        <strong>[1] Highlighter</strong> (10s cooldown) - Mark a suspected faker to track their movements for 30s
+                    </div>
+                </div>
+                <div class="skill-list-item">
+                    <img src="Icons/prisoner.svg" alt="Prisoner" class="skill-list-icon red-icon">
+                    <div>
+                        <strong>[2] Prisoner</strong> (30s cooldown) - Temporarily trap a target for 15s
+                    </div>
+                </div>
+                <div class="skill-list-item">
+                    <img src="Icons/blindfold.svg" alt="Blindfold" class="skill-list-icon red-icon">
+                    <div>
+                        <strong>[3] Blindfold</strong> (25s cooldown) - Restrict a target's vision for 10s
+                    </div>
+                </div>
+                <div class="skill-list-item">
+                    <img src="Icons/stopwatch.svg" alt="Stopwatch" class="skill-list-icon red-icon">
+                    <div>
+                        <strong>[4] Stopwatch</strong> (40s cooldown) - Disable a random hot dog stand for 10s
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Game UI Page -->
+    <div id="gameUI" class="page active theme-blue">
+        <!-- Role Ribbon -->
+        <div class="role-ribbon"></div>
+        <div class="role-ribbon-text" id="roleText">
+            FAKER
+        </div>
+
+        <!-- Health -->
+        <div class="health-container">
+            <div class="health-label">HEALTH</div>
+            <div class="health-bar">
+                <div class="health-fill" id="healthFill"></div>
+            </div>
+        </div>
+
+        <div class="objectives-container">
+            <div class="objectives-progress-row" id="fakersProgress"></div>
+            <div class="objectives-progress-row" id="propsProgress"></div>
+        </div>
+
+        <!-- Skills -->
+        <div class="skills-container">
+            <div class="skill" data-skill="1" data-cooldown-blue="1" data-cooldown-red="1" data-icon-blue="Icons/whistle.svg" data-icon-red="Icons/highlighter.svg">
+                <img class="skill-icon" src="Icons/whistle.svg" alt="Skill 1">
+                <div class="skill-keybind">1</div>
+            </div>
+            <div class="skill" data-skill="2" data-cooldown-blue="1" data-cooldown-red="1" data-icon-blue="Icons/puppet.svg" data-icon-red="Icons/prisoner.svg">
+                <img class="skill-icon" src="Icons/puppet.svg" alt="Skill 2">
+                <div class="skill-keybind">2</div>
+            </div>
+            <div class="skill" data-skill="3" data-cooldown-blue="1" data-cooldown-red="1" data-icon-blue="Icons/prank-glasses.svg" data-icon-red="Icons/blindfold.svg">
+                <img class="skill-icon" src="Icons/prank-glasses.svg" alt="Skill 3">
+                <div class="skill-keybind">3</div>
+            </div>
+            <div class="skill" data-skill="4" data-cooldown-blue="1" data-cooldown-red="1" data-icon-blue="Icons/dark-squad.svg" data-icon-red="Icons/stopwatch.svg">
+                <img class="skill-icon" src="Icons/dark-squad.svg" alt="Skill 4">
+                <div class="skill-keybind">4</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Score Page -->
+    <div id="scorePage" class="page">
+        <div class="score-container">
+            <h1>Scoreboard</h1>
+            <div class="player-list" id="playerList">
+                <!-- Sample Players -->
+                <div class="player-item">
+                    <div class="player-rank">#1</div>
+                    <div class="player-avatar">👤</div>
+                    <div class="player-info">
+                        <div class="player-name">Player Name</div>
+                        <div class="player-stats">
+                            <span>K/D: 15/3</span>
+                            <span>Deliveries: 5</span>
+                        </div>
+                    </div>
+                    <div class="player-score">1500</div>
+                    <div class="player-ping">25ms</div>
+                </div>
+                <div class="player-item">
+                    <div class="player-rank">#2</div>
+                    <div class="player-avatar">👤</div>
+                    <div class="player-info">
+                        <div class="player-name">Player Name 2</div>
+                        <div class="player-stats">
+                            <span>K/D: 12/5</span>
+                            <span>Deliveries: 3</span>
+                        </div>
+                    </div>
+                    <div class="player-score">1200</div>
+                    <div class="player-ping">42ms</div>
+                </div>
+                <div class="player-item">
+                    <div class="player-rank">#3</div>
+                    <div class="player-avatar">👤</div>
+                    <div class="player-info">
+                        <div class="player-name">Player Name 3</div>
+                        <div class="player-stats">
+                            <span>K/D: 10/7</span>
+                            <span>Deliveries: 2</span>
+                        </div>
+                    </div>
+                    <div class="player-score">950</div>
+                    <div class="player-ping">38ms</div>
+                </div>
+            </div>
+            <div class="score-nav">
+                <button class="nav-button" onclick="showPage('gameUI')">Back to Game</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- End Screen Page -->
+    <div id="endScreen" class="page">
+        <div class="end-screen-layout">
+            <div class="end-container">
+                <div class="winner-announcement" id="winnerText">
+                    FAKER WINS!
+                </div>
+                <div class="end-conclusion" id="endConclusion">
+                    YOU WON
+                </div>
+                <div class="end-stats">
+                    <div class="end-stat">
+                        <div class="end-stat-label">YOUR SCORE</div>
+                        <div class="end-stat-value" id="endScore">1500</div>
+                    </div>
+                    <div class="end-stat">
+                        <div class="end-stat-label" id="endObjectivesLabel">DELIVERIES</div>
+                        <div class="end-stat-value" id="endObjectives">0</div>
+                    </div>
+                    <div class="end-stat">
+                        <div class="end-stat-label">SKILLS USED</div>
+                        <div class="end-stat-value" id="endSkillsUsed">0</div>
+                    </div>
+                </div>
+            </div>
+            <div class="end-scoreboard-container">
+                <div class="score-container">
+                    <h1>Scoreboard</h1>
+                    <div class="player-list" id="endScreenPlayerList">
+                        <!-- Scoreboard will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shop Page -->
+    <div id="shopPage" class="page">
+        <div class="shop-container">
+            <h1>SHOP</h1>
+            <div class="shop-grid" id="shopGrid">
+                <!-- Sample Shop Items -->
+                <div class="shop-item" data-item-id="1">
+                    <div class="shop-item-icon">🗡️</div>
+                    <div class="shop-item-name">Sword of Power</div>
+                    <div class="shop-item-price">$500</div>
+                    <div class="shop-item-description">A legendary sword that increases your attack damage by 50%. Perfect for close combat situations.</div>
+                    <button class="shop-item-buy" onclick="buyItem(1)">BUY NOW</button>
+                </div>
+                <div class="shop-item" data-item-id="2">
+                    <div class="shop-item-icon">🛡️</div>
+                    <div class="shop-item-name">Shield of Defense</div>
+                    <div class="shop-item-price">$400</div>
+                    <div class="shop-item-description">Reduces incoming damage by 30%. Essential for surviving tough battles.</div>
+                    <button class="shop-item-buy" onclick="buyItem(2)">BUY NOW</button>
+                </div>
+                <div class="shop-item" data-item-id="3">
+                    <div class="shop-item-icon">⚡</div>
+                    <div class="shop-item-name">Speed Boost</div>
+                    <div class="shop-item-price">$300</div>
+                    <div class="shop-item-description">Increases your movement speed by 25% for the rest of the round.</div>
+                    <button class="shop-item-buy" onclick="buyItem(3)">BUY NOW</button>
+                </div>
+                <div class="shop-item" data-item-id="4">
+                    <div class="shop-item-icon">💊</div>
+                    <div class="shop-item-name">Health Pack</div>
+                    <div class="shop-item-price">$150</div>
+                    <div class="shop-item-description">Instantly restores 50 health points. Can be used at any time.</div>
+                    <button class="shop-item-buy" onclick="buyItem(4)">BUY NOW</button>
+                </div>
+                <div class="shop-item" data-item-id="5">
+                    <div class="shop-item-icon">🎯</div>
+                    <div class="shop-item-name">Precision Scope</div>
+                    <div class="shop-item-price">$600</div>
+                    <div class="shop-item-description">Improves accuracy by 40% and increases critical hit chance.</div>
+                    <button class="shop-item-buy" onclick="buyItem(5)">BUY NOW</button>
+                </div>
+                <div class="shop-item" data-item-id="6">
+                    <div class="shop-item-icon">💣</div>
+                    <div class="shop-item-name">Explosive Pack</div>
+                    <div class="shop-item-price">$450</div>
+                    <div class="shop-item-description">Deals massive area damage. Use strategically to eliminate multiple enemies.</div>
+                    <button class="shop-item-buy" onclick="buyItem(6)">BUY NOW</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
