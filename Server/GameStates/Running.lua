@@ -43,6 +43,7 @@ Character.Subscribe(
 			character:ApplyDamage(20)
 		end
 		if self:GetTeam() == 1 then
+			self:GetPlayer():UnPossess()
 			Events.Call("IncreaseAmountOfHuntersKilled")
 			local player = self:GetPlayer()
 			if player then
@@ -50,6 +51,7 @@ Character.Subscribe(
 			end
 		end
 		if self:GetTeam() == 2 then
+			self:GetPlayer():UnPossess()
 			local player = self:GetPlayer()
 			if player then
 				AddPlayerDeaths(player)

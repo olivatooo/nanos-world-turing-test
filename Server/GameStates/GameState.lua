@@ -21,7 +21,7 @@ function GetStageName(stage)
 	end
 end
 
-MinPlayers = 1
+MinPlayers = 2
 Timer.SetInterval(function()
 	local playerCount = #Player.GetAll()
 	if playerCount == 0 then

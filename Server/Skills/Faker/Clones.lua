@@ -16,7 +16,7 @@ function SpawnSwarm(center)
 	)
 	p:SetScale(Vector(3, 3, 3))
 	p:SetLifeSpan(3)
-	Events:BroadcastRemote("PlayNanosSFXAt", p:GetLocation(), "A_Explosion_Large")
+	Events.BroadcastRemote("PlayNanosSFXAt", p:GetLocation(), "A_Explosion_Large")
 end
 
 Events.SubscribeRemote("Clones", function(player)

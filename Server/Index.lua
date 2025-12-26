@@ -153,7 +153,18 @@ function PlayOST()
 end
 
 function StartGame()
-	SpawnBots(Vector(-6000, 2115, 100), 8, 8)
+	-- Calculate bot count: 8 bots per player, maximum of 80 bots
+	local players = Player.GetAll()
+	local playerCount = #players
+	local botsPerPlayer = 8
+	local maxBots = 80
+	local totalBots = math.min(playerCount * botsPerPlayer, maxBots)
+	
+	-- Calculate grid dimensions (X and Y) for roughly square layout
+	local amount_x = math.ceil(math.sqrt(totalBots))
+	local amount_y = math.ceil(totalBots / amount_x)
+	
+	SpawnBots(Vector(-6000, 2115, 100), amount_x, amount_y)
 	SpawnPlayers()
 	SpawnHotDogStands()
 	SpawnProps()

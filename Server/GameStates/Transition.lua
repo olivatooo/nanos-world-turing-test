@@ -5,13 +5,13 @@ function TransitionToStage(newStage)
 		print("[Server] Game State Transition: " .. GetStageName(previousStage) .. " -> " .. GetStageName(newStage))
 
 		if newStage == GameStage.WaitingForPlayers then
-			GameState.Time = 1
+			GameState.Time = 15
 			WaitingForPlayers()
 		elseif newStage == GameStage.PreparingMatch then
-			GameState.Time = 1
+			GameState.Time = 15
 			PreparingForMatch()
 		elseif newStage == GameStage.Running then
-			GameState.Time = 120
+			GameState.Time = 300
 			GameState.AmountOfTotalFakers = 0
 			GameState.AmountOfTotalProps = 0
 			GameState.AmountOfTotalHunters = 0
