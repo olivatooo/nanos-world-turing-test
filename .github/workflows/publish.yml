@@ -13,6 +13,5 @@ jobs:
       - uses: olivatooo/nanos-world-store-action@v1
         with:
           NANOS_PERSONAL_ACCESS_TOKEN: ${{ secrets.NANOS_STORE_TOKEN }}
-          NANOS_PACKAGE_NAME: 'testing'  # Replace with your package name
-          NANOS_API_URL: 'https://staging.nanos-world.com'
+          NANOS_PACKAGE_NAME: 'turing-test'  # Replace with your package name
           VERBOSE: 'true'

@@ -3,5 +3,4 @@ Events.SubscribeRemote("Whistle", function(player)
 	if character == nil then
 		return
 	end
-	Events.BroadcastRemote("PlayTauntAt", character:GetLocation(), math.random(1, 14))
 end)

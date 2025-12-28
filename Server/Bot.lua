@@ -39,10 +39,7 @@ function SetCharacterBehaviour(character)
 			local location = GetRandomVector()
 			manny:LookAt(Vector(location.x, location.y, location.z))
 		end
-		if math.random() > 0.9 then
-			manny:PlayAnimation(GetRandomAnimation(), AnimationSlotType.UpperBody)
-		end
-		if math.random() > 0.99 then
+		if math.random() > 0.90 then
 			manny:Jump()
 		end
 		if math.random() > 0.5 then
@@ -51,8 +48,14 @@ function SetCharacterBehaviour(character)
 		if math.random() > 0.95 then
 			manny:SetGaitMode(math.random(0, 2))
 		end
+		if math.random() > 0.99 then
+			manny:SetGaitMode(math.random(0, 2))
+		end
+		if math.random() > 0.99 then
+			manny:SetRagdollMode(true)
+		end
 		if math.random() > 0.9 then
-			Events.BroadcastRemote("PlayTauntAt", manny:GetLocation(), math.random(1, 14))
+			Taunt(manny)
 		end
 		if math.random() > 0.99 then
 			local to_follow = Character.GetAll()[math.random(#Character.GetAll())]

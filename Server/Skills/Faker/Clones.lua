@@ -5,6 +5,21 @@ function SpawnSwarm(center)
 		mannequin:SetCollision(CollisionType.IgnoreOnlyPawn)
 		SetCharacterAppeareance(mannequin)
 		SetCharacterBehaviour(mannequin)
+		local location = GetRandomVector()
+		mannequin:MoveTo(Vector(location.x, location.y, location.z), 10)
+		Timer.SetTimeout(function(_mannequin)
+			local p = Particle(
+				center,
+				Rotator(0, 0, 0),
+				"nanos-world::P_Smoke",
+				false, -- Auto Destroy?
+				true -- Auto Activate?
+			)
+			p:SetScale(Vector(2, 2, 2))
+			p:SetLifeSpan(1)
+			_mannequin:Destroy()
+			Events.BroadcastRemote("PlayNanosSFXAt", p:GetLocation(), "A_Balloon_Pop")
+		end, 1000, mannequin)
 	end
 
 	local p = Particle(

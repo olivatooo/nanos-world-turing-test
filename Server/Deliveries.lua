@@ -91,7 +91,7 @@ function SpawnSingleProp(location)
 		local velocity = _prop:GetVelocity()
 
 		-- Check if velocity is zero (reset flag)
-		if math.floor(velocity.Z) == 0 then
+		if velocity:IsNearlyZero(1) then
 			if wooshLogged and not resetLogged then
 				resetLogged = true
 				wooshLogged = false
