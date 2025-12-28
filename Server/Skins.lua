@@ -176,9 +176,21 @@ function SetCharacterAddHair(character)
 	end
 end
 
+Hats = Assets.GetStaticMeshes("polygon-hats")
+function AddHatToCharacter(character)
+	character:AddStaticMeshAttached(
+		"head",
+		"polygon-hats::" .. Hats[math.random(#Hats)].key,
+		"head",
+		Vector(5, 0, 0),
+		Rotator(-90, 0, 0)
+	)
+end
+
 function SetCharacterAppeareance(character)
 	-- SetCharacterAddBeard(character)
 	-- SetCharacterAddHair(character)
+	AddHatToCharacter(character)
 	character:SetMaterialColorParameter("Tint", Color.RandomPalette(false))
 	-- if math.random() > 0.5 then
 	-- 	character:AddSkeletalMeshAttached("shirt", Shirts[math.random(#Shirts)])

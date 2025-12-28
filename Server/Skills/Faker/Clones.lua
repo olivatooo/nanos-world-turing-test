@@ -7,6 +7,8 @@ function SpawnSwarm(center)
 		SetCharacterBehaviour(mannequin)
 		local location = GetRandomVector()
 		mannequin:MoveTo(Vector(location.x, location.y, location.z), 10)
+		mannequin:SetStanceMode(math.random(1, 2))
+		mannequin:SetGaitMode(math.random(0, 2))
 		Timer.SetTimeout(function(_mannequin)
 			local p = Particle(
 				center,
@@ -19,7 +21,7 @@ function SpawnSwarm(center)
 			p:SetLifeSpan(1)
 			_mannequin:Destroy()
 			Events.BroadcastRemote("PlayNanosSFXAt", p:GetLocation(), "A_Balloon_Pop")
-		end, 1000, mannequin)
+		end, 10000, mannequin)
 	end
 
 	local p = Particle(
