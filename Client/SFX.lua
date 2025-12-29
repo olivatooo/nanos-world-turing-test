@@ -89,7 +89,7 @@ end
 
 function PlayTauntAt(character, number)
 	local sound = Sound(
-		location,
+		character:GetLocation(),
 		"package://turing-test/Client/SFX/Taunts/" .. number .. ".ogg",
 		false, -- Is 2D Sound
 		true, -- Auto Destroy (if to destroy after finished playing)

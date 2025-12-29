@@ -21,11 +21,12 @@ function TransitionToStage(newStage)
 			for _, v in pairs(Character.GetAll()) do
 				if v:GetTeam() == FakerTeam then
 					GameState.AmountOfTotalFakers = GameState.AmountOfTotalFakers + 1
-					GameState.AmountOfTotalProps = GameState.AmountOfTotalProps + 3
+					GameState.AmountOfTotalProps = GameState.AmountOfTotalProps + 2
 				elseif v:GetTeam() == HunterTeam then
 					GameState.AmountOfTotalHunters = GameState.AmountOfTotalHunters + 1
 				end
 			end
+			GameState.AmountOfTotalProps = GameState.AmountOfTotalProps + GameState.AmountOfTotalFakers
 			Running()
 		elseif newStage == GameStage.EndGame then
 			GameState.Time = 15

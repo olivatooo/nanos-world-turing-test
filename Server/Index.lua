@@ -38,7 +38,7 @@ function SpawnBots(location, amount_x, amount_y)
 	for i = 1, amount_x do
 		for j = 1, amount_y do
 			local mannequin = SpawnCharacter(location + Vector(i * offset, j * offset, 0))
-			mannequin:SetAIAvoidanceSettings(false)
+			mannequin:SetAIAvoidanceSettings(true, 10)
 			mannequin:SetCollision(CollisionType.IgnoreOnlyPawn)
 			SetCharacterAppeareance(mannequin)
 		end
@@ -135,7 +135,7 @@ function SpawnPlayers()
 			Console.Log("Player " .. player:GetName() .. " assigned as FAKER")
 			Events.CallRemote("SetTheme", player, "blue")
 			character:SetTeam(FakerTeam)
-			character:SetPunchDamage(1)
+			character:SetPunchDamage(5)
 			character:SetCameraMode(CameraMode.TPSOnly)
 			character:Subscribe("Interact", function(self, object)
 				if object:IsA(Weapon) then
@@ -159,11 +159,11 @@ function StartGame()
 	local botsPerPlayer = 8
 	local maxBots = 80
 	local totalBots = math.min(playerCount * botsPerPlayer, maxBots)
-	
+
 	-- Calculate grid dimensions (X and Y) for roughly square layout
 	local amount_x = math.ceil(math.sqrt(totalBots))
 	local amount_y = math.ceil(totalBots / amount_x)
-	
+
 	SpawnBots(Vector(-6000, 2115, 100), amount_x, amount_y)
 	SpawnPlayers()
 	SpawnHotDogStands()

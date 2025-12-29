@@ -20,6 +20,9 @@ function Clear()
 	for _, v in pairs(Character.GetAll()) do
 		v:Destroy()
 	end
+	for _, v in pairs(Trigger.GetAll()) do
+		v:Destroy()
+	end
 	for _, v in pairs(Particle.GetAll()) do
 		v:Destroy()
 	end
