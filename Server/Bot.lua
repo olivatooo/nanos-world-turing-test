@@ -52,7 +52,7 @@ function SetCharacterBehaviour(character)
 			manny:SetGaitMode(math.random(0, 2))
 		end
 		if math.random() > 0.99 then
-			manny:SetRagdollMode(true)
+			-- manny:SetRagdollMode(true)
 		end
 		if math.random() > 0.9 then
 			Taunt(manny)

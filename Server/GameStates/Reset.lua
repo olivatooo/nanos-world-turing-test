@@ -1,6 +1,6 @@
 function ResetGameState()
 	GameState = {
-		Time = 5,
+		Time = Config.GameStateTimes.Reset,
 		Started = false,
 		Stage = GameStage.WaitingForPlayers,
 		AmountOfFakersKilled = 0,

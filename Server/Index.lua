@@ -1,9 +1,7 @@
-BotTeam = 0
-HunterTeam = 1
-FakerTeam = 2
-
--- Hunter to Faker ratio constant (1 hunter for every 3 fakers)
-HUNTER_TO_FAKER_RATIO = 1 / 3
+-- Teams are now defined in Shared/Index.lua as Config.Teams
+BotTeam = Config.Teams.Bot
+HunterTeam = Config.Teams.Hunter
+FakerTeam = Config.Teams.Faker
 
 -- Rotation tracking: stores player IDs who have been hunters
 local hunterRotation = {}
@@ -34,7 +32,7 @@ function SpawnCharacter(location)
 end
 
 function SpawnBots(location, amount_x, amount_y)
-	local offset = 300
+	local offset = Config.Bots.SpawnOffset
 	for i = 1, amount_x do
 		for j = 1, amount_y do
 			local mannequin = SpawnCharacter(location + Vector(i * offset, j * offset, 0))
@@ -55,9 +53,10 @@ function SpawnPlayers()
 	end
 
 	-- Calculate number of hunters based on ratio (1 hunter for every 3 fakers)
-	-- Formula: numHunters = playerCount / (1 + 3) = playerCount / 4
-	-- But ensure at least 1 hunter if we have players
-	local numHunters = math.max(1, math.floor(playerCount / (1 + 3)))
+	-- Formula: numHunters = ceil(playerCount / 4) to ensure 1 hunter per 3 fakers
+	-- Examples: 6 players = 2 hunters + 4 fakers, 7 players = 2 hunters + 5 fakers,
+	--           8 players = 2 hunters + 6 fakers, 10 players = 3 hunters + 7 fakers
+	local numHunters = math.max(1, math.ceil(playerCount / 4))
 	local numFakers = playerCount - numHunters
 
 	-- Get list of current player IDs
@@ -135,7 +134,7 @@ function SpawnPlayers()
 			Console.Log("Player " .. player:GetName() .. " assigned as FAKER")
 			Events.CallRemote("SetTheme", player, "blue")
 			character:SetTeam(FakerTeam)
-			character:SetPunchDamage(5)
+			character:SetPunchDamage(Config.Damage.FakerPunch)
 			character:SetCameraMode(CameraMode.TPSOnly)
 			character:Subscribe("Interact", function(self, object)
 				if object:IsA(Weapon) then
@@ -153,12 +152,10 @@ function PlayOST()
 end
 
 function StartGame()
-	-- Calculate bot count: 8 bots per player, maximum of 80 bots
+	-- Calculate bot count based on configuration
 	local players = Player.GetAll()
 	local playerCount = #players
-	local botsPerPlayer = 8
-	local maxBots = 80
-	local totalBots = math.min(playerCount * botsPerPlayer, maxBots)
+	local totalBots = math.min(playerCount * Config.Bots.PerPlayer, Config.Bots.MaxBots)
 
 	-- Calculate grid dimensions (X and Y) for roughly square layout
 	local amount_x = math.ceil(math.sqrt(totalBots))
@@ -189,13 +186,13 @@ function SpawnHunter(player)
 	character:SetCameraMode(CameraMode.FPSOnly)
 	local weapon = AK47(Vector(), Rotator())
 	weapon:AddStaticMeshAttached("sight", "nanos-world::SM_T4_Sight", "", Vector(23, -0, 12))
-	weapon.SightFOVMultiplier = 0.35
+	weapon.SightFOVMultiplier = Config.HunterWeapon.SightFOVMultiplier
 	weapon:SetSightTransform(Vector(0, 0, -2), Rotator(0, 0, 0))
 	character:PickUp(weapon)
 	character:SetTeam(HunterTeam)
 	character:Subscribe("Interact", function(self, object)
 		if object:IsA(Prop) then
-			character:ApplyDamage(10)
+			character:ApplyDamage(Config.Damage.HunterPropInteraction)
 			return false
 		end
 	end)

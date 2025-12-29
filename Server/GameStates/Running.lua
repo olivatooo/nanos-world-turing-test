@@ -16,7 +16,7 @@ end)
 
 Events.Subscribe("IncreaseAmountOfPropsDelivered", function()
 	GameState.AmountOfPropsDelivered = GameState.AmountOfPropsDelivered + 1
-	GameState.Time = GameState.Time + 5
+	GameState.Time = GameState.Time + Config.Scoring.TimeBonusPerProp
 	if GameState.AmountOfPropsDelivered == GameState.AmountOfTotalProps then
 		TriggerEndGame()
 	end
@@ -40,7 +40,7 @@ Character.Subscribe(
 		end
 		if self:GetTeam() == 0 then
 			local character = instigator:GetControlledCharacter()
-			character:ApplyDamage(25)
+			character:ApplyDamage(Config.Damage.BotDeathToHunter)
 		end
 		if self:GetTeam() == 1 then
 			self:GetPlayer():UnPossess()
@@ -58,7 +58,7 @@ Character.Subscribe(
 			end
 			if instigator then
 				AddPlayerKills(instigator)
-				AddPlayerScore(instigator, 3500)
+				AddPlayerScore(instigator, Config.Scoring.KillFaker)
 			end
 			Events.Call("IncreaseAmountOfFakersKilled")
 		end
@@ -75,7 +75,7 @@ function Running()
 	-- Reset elapsed time for new game
 	elapsedSeconds = 0
 
-	-- Set up timer to spawn props every 15 seconds of game time
+	-- Set up timer to spawn props every interval
 	Timer.SetInterval(function()
 		if GameState.Stage ~= GameStage.Running then
 			return false -- Stop timer if not in Running stage
@@ -84,8 +84,8 @@ function Running()
 		-- Increment elapsed seconds (this tracks real game time, not GameState.Time)
 		elapsedSeconds = elapsedSeconds + 1
 
-		-- Spawn props every 15 seconds
-		if elapsedSeconds % 15 == 0 then
+		-- Spawn props every configured interval
+		if elapsedSeconds % Config.Spawns.PropSpawnInterval == 0 then
 			-- Count number of hunters to determine spawn count
 			local numHunters = 0
 			for _, character in pairs(Character.GetAll()) do
@@ -94,9 +94,9 @@ function Running()
 				end
 			end
 
-			-- Spawn additional props (hunters * 1 per 15 seconds)
+			-- Spawn additional props (hunters * configured amount per interval)
 			if numHunters > 0 then
-				SpawnAdditionalProps(numHunters)
+				SpawnAdditionalProps(numHunters * Config.Spawns.PropsPerHunterPeriodic)
 			end
 		end
 	end, 1000) -- Check every second

@@ -48,8 +48,8 @@ local usedSpawnIndices = {}
 -- Function to spawn a single prop at a given location
 function SpawnSingleProp(location)
 	local prop_selection = PropsToDeliver[math.random(#PropsToDeliver)]
-	local prop = Prop(location + Vector(0, 0, 65), Rotator(), prop_selection[1], CollisionType.IgnoreOnlyPawn, false)
-	prop:SetScale(Vector(0.25, 0.25, 0.25))
+	local prop = Prop(location + Vector(0, 0, Config.Spawns.PropResetHeight), Rotator(), prop_selection[1], CollisionType.IgnoreOnlyPawn, false)
+	prop:SetScale(Vector(Config.Spawns.PropScale, Config.Spawns.PropScale, Config.Spawns.PropScale))
 	prop:SetGrabMode(GrabMode.Enabled)
 	prop:Subscribe("Interact", function(self, character)
 		self:SetGravityEnabled(true)
@@ -96,7 +96,7 @@ function SpawnSingleProp(location)
 				resetLogged = true
 				wooshLogged = false
 				_prop:SetGravityEnabled(false)
-				_prop:TranslateTo(_prop:GetLocation() + Vector(0, 0, 65), 1.0, 2.0)
+				_prop:TranslateTo(_prop:GetLocation() + Vector(0, 0, Config.Spawns.PropResetHeight), 1.0, 2.0)
 			end
 			-- Check if going up (positive Z) and haven't logged yet
 		else
@@ -115,7 +115,7 @@ function SpawnSingleProp(location)
 			return
 		end
 		_prop:SetRotation(Rotator(0, prop:GetRotation().Yaw + 1, 0))
-	end, 25, prop)
+	end, Config.Spawns.PropRotationTimer, prop)
 
 	return prop
 end
@@ -164,8 +164,8 @@ function SpawnProps()
 		end
 	end
 
-	-- Calculate desired spawn count: hunters * 3
-	local desiredCount = numHunters * 3
+	-- Calculate desired spawn count: hunters * configured amount
+	local desiredCount = numHunters * Config.Spawns.PropsPerHunter
 	local availableSpawns = #PropPossibleSpawnPoints
 	local spawnCount = math.min(desiredCount, availableSpawns)
 
