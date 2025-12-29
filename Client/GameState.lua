@@ -74,7 +74,7 @@ end
 
 Events.SubscribeRemote("GameState", GameState)
 
-function EndGame(winnerTeam)
+function EndGame(winnerTeam, roundScoreboard)
 	Console.Log("EndGame received - Winner: " .. winnerTeam)
 
 	-- Get local player's character and team
@@ -91,8 +91,8 @@ function EndGame(winnerTeam)
 		end
 	end
 
-	-- Get player stats
-	local score = player:GetValue("Score") or 0
+	-- Get player stats (total scores)
+	local totalScore = player:GetValue("Score") or 0
 	local kills = player:GetValue("Kills") or 0
 	local deliveries = player:GetValue("Deliveries") or 0
 	local skillsUsed = player:GetValue("SkillsUsed") or 0
@@ -107,7 +107,13 @@ function EndGame(winnerTeam)
 		numberOfObjectives = kills
 	end
 
-	WebUI:CallEvent("showEndPage", winnerTeam, myTeam, numberOfObjectives, score, skillsUsed)
+	-- Convert roundScoreboard table to JSON for WebUI
+	local roundScoreboardJSON = "[]"
+	if roundScoreboard and #roundScoreboard > 0 then
+		roundScoreboardJSON = JSON.stringify(roundScoreboard)
+	end
+
+	WebUI:CallEvent("showEndPage", winnerTeam, myTeam, numberOfObjectives, totalScore, skillsUsed, roundScoreboardJSON)
 	PlayMusic(winnerTeam)
 end
 

@@ -1049,6 +1049,24 @@ body.theme-red .nav-button.primary {
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Win state - green */
+.end-conclusion.won {
+    background: linear-gradient(90deg, rgba(46, 213, 115, 0.4), rgba(46, 213, 115, 0.2));
+    border: 3px solid #2ed573;
+    color: #2ed573;
+    box-shadow: 0 0 20px rgba(46, 213, 115, 0.5);
+}
+
+/* Loss state - strong red */
+.end-conclusion.lost {
+    background: linear-gradient(90deg, rgba(255, 51, 51, 0.5), rgba(255, 51, 51, 0.3));
+    border: 3px solid #ff3333;
+    color: #ff3333;
+    box-shadow: 0 0 20px rgba(255, 51, 51, 0.6);
+    font-weight: 900;
 }
 
 .end-container.conclusion-blue .end-conclusion {
@@ -1064,10 +1082,12 @@ body.theme-red .nav-button.primary {
 }
 
 .end-scoreboard-container {
-    flex: 0 0 600px;
+    flex: 1;
     max-height: calc(100vh - 80px);
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 20px;
+    min-width: 1200px;
 }
 
 .end-scoreboard-container .score-container {
@@ -1075,6 +1095,7 @@ body.theme-red .nav-button.primary {
     margin: 0;
     overflow-y: auto;
     flex: 1;
+    min-width: 0;
 }
 
 

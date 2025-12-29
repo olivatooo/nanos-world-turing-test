@@ -4,11 +4,14 @@ Package.Require("Hunter/Highlighter.lua")
 Package.Require("Hunter/Prisioner.lua")
 Package.Require("Hunter/Sabotage.lua")
 Package.Require("Hunter/Blindfold.lua")
+Package.Require("Hunter/FakeProp.lua")
 
 Package.Require("Faker/Taunt.lua")
 Package.Require("Faker/Whistle.lua")
 Package.Require("Faker/Disguise.lua")
 Package.Require("Faker/Clones.lua")
+Package.Require("Faker/Teleport.lua")
+Package.Require("Faker/Tomato.lua")
 -- Team to theme color mapping
 local TeamThemes = {
 	[1] = "red",
@@ -56,13 +59,13 @@ end
 -- Skills dispatch table: theme -> index -> function
 local Skills = {
 	blue = { -- Faker
-		[1] = Whistle,
+		[1] = Tomato,
 		[2] = Taunt,
 		[3] = Disguise,
 		[4] = Clones,
 	},
 	red = { -- Hunter
-		[1] = Highlight,
+		[1] = FakeProp,
 		[2] = Prisioner,
 		[3] = Blindfold,
 		[4] = Sabotage,

@@ -1,3 +1,6 @@
+-- Store round start scores for each player (indexed by player ID) - global so EndGame can access it
+roundStartScores = {}
+
 function TransitionToStage(newStage)
 	if GameState.Stage ~= newStage then
 		previousStage = GameState.Stage
@@ -18,6 +21,15 @@ function TransitionToStage(newStage)
 			GameState.AmountOfFakersKilled = 0
 			GameState.AmountOfTotalHuntersKilled = 0
 			GameState.AmountOfPropsDelivered = 0
+			
+			-- Store each player's current score as the round start score
+			roundStartScores = {}
+			for _, player in pairs(Player.GetAll()) do
+				local playerId = player:GetID()
+				local currentScore = player:GetValue("Score") or 0
+				roundStartScores[playerId] = currentScore
+			end
+			
 			for _, v in pairs(Character.GetAll()) do
 				if v:GetTeam() == FakerTeam then
 					GameState.AmountOfTotalFakers = GameState.AmountOfTotalFakers + 1

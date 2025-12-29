@@ -24,7 +24,7 @@ Config.Teams = {
 
 -- Player Configuration
 Config.Players = {
-	MinPlayers = 2,
+	MinPlayers = 1,
 	-- Hunter ratio: 1 hunter for every 3 fakers
 	-- Formula: numHunters = ceil(playerCount / 4)
 	HunterRatio = 1 / 3, -- Used for reference, actual calculation uses ceil(playerCount / 4)
@@ -32,8 +32,8 @@ Config.Players = {
 
 -- Game State Time Limits (in seconds)
 Config.GameStateTimes = {
-	WaitingForPlayers = 15,
-	PreparingMatch = 15,
+	WaitingForPlayers = 1,
+	PreparingMatch = 1,
 	Running = 200,
 	EndGame = 15,
 	Reset = 5,

@@ -19,14 +19,20 @@ function SpawnHotDogStand(location, rotation)
 	local hotdog_stand =
 		StaticMesh(location, Rotator(0, math.random(-45, 45), 0), "polygon-city::SM_Prop_HotdogStand_01")
 	hotdog_stand:SetValue("HotDogStand", true, true)
-	hotdog_stand:SetScale(Vector(Config.Spawns.HotDogStandScale, Config.Spawns.HotDogStandScale, Config.Spawns.HotDogStandScale))
-	local trigger = Trigger(Vector(), Rotator(), Vector(Config.Spawns.HotDogStandTriggerSize), nil, false, Color(1, 0, 0))
+	hotdog_stand:SetScale(
+		Vector(Config.Spawns.HotDogStandScale, Config.Spawns.HotDogStandScale, Config.Spawns.HotDogStandScale)
+	)
+	local trigger =
+		Trigger(Vector(), Rotator(), Vector(Config.Spawns.HotDogStandTriggerSize), nil, false, Color(1, 0, 0))
 	trigger:SetOverlapOnlyClasses({ "Prop" })
 	trigger:AttachTo(hotdog_stand)
 	trigger:SetRelativeLocation(Vector(0, 0, 100))
 	trigger:Subscribe("BeginOverlap", function(self, other)
+		if other:GetValue("IsFake") then
+			return
+		end
 		for i, v in pairs(other:GetAttachedEntities()) do
-			v:Destroy()
+			v:SetLifeSpan(3)
 		end
 		Events.Call("IncreaseAmountOfPropsDelivered")
 		Events.BroadcastRemote("PlaySFXAt", self:GetLocation(), "Objectives/objective.ogg")

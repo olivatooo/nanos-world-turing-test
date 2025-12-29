@@ -402,7 +402,7 @@ function setEndScreen(winner, stats) {
 }
 
 // Show end page with winner, player stats, and scoreboard
-function showEndPage(winner_team, my_team, number_of_objectives, score, amount_of_used_skills) {
+function showEndPage(winner_team, my_team, number_of_objectives, score, amount_of_used_skills, round_scoreboard_json) {
     // Validate teams
     if (winner_team !== 'blue' && winner_team !== 'red') {
         console.error('Invalid winner_team. Use "blue" or "red"');
@@ -426,7 +426,7 @@ function showEndPage(winner_team, my_team, number_of_objectives, score, amount_o
     endScreen.classList.remove('theme-blue', 'theme-red');
     endScreen.classList.add(`theme-${winner_team}`);
 
-    // Set conclusion theme based on player's team color
+    // Set conclusion theme based on player's team color (legacy support)
     endContainer.classList.remove('conclusion-blue', 'conclusion-red');
     endContainer.classList.add(`conclusion-${my_team}`);
 
@@ -434,12 +434,11 @@ function showEndPage(winner_team, my_team, number_of_objectives, score, amount_o
     const winnerTeamName = winner_team === 'blue' ? 'FAKER' : 'HUNTER';
     winnerText.textContent = `${winnerTeamName} WINS!`;
 
-    // Update conclusion based on whether player won
-    if (winner_team === my_team) {
-        endConclusion.textContent = 'YOU WON';
-    } else {
-        endConclusion.textContent = 'YOU LOST';
-    }
+    // Update conclusion based on whether player won - with win/loss styling
+    const playerWon = winner_team === my_team;
+    endConclusion.textContent = playerWon ? 'YOU WON' : 'YOU LOST';
+    endConclusion.classList.remove('won', 'lost');
+    endConclusion.classList.add(playerWon ? 'won' : 'lost');
 
     // Update score
     endScore.textContent = score || '0';
@@ -455,15 +454,106 @@ function showEndPage(winner_team, my_team, number_of_objectives, score, amount_o
     // Update skills used
     endSkillsUsed.textContent = amount_of_used_skills || '0';
 
-    // Copy current scoreboard to end screen
+    // Copy current scoreboard to end screen (overall scoreboard)
     const playerList = document.getElementById('playerList');
     const endScreenPlayerList = document.getElementById('endScreenPlayerList');
     if (playerList && endScreenPlayerList) {
         endScreenPlayerList.innerHTML = playerList.innerHTML;
     }
 
+    // Update round scoreboard
+    updateRoundScoreboard(round_scoreboard_json);
+
     // Show end screen page
     showPage('endScreen');
+}
+
+// Update round scoreboard
+function updateRoundScoreboard(round_scoreboard_json) {
+    const roundScoreboardList = document.getElementById('roundScoreboardList');
+    if (!roundScoreboardList) {
+        console.error('Round scoreboard list element not found');
+        return;
+    }
+
+    // Parse JSON string
+    let roundScoreboard = [];
+    if (round_scoreboard_json && typeof round_scoreboard_json === 'string') {
+        try {
+            roundScoreboard = JSON.parse(round_scoreboard_json);
+        } catch (e) {
+            console.error('Failed to parse round scoreboard JSON:', e);
+            return;
+        }
+    } else if (Array.isArray(round_scoreboard_json)) {
+        roundScoreboard = round_scoreboard_json;
+    }
+
+    // Clear existing content
+    roundScoreboardList.innerHTML = '';
+
+    // Build round scoreboard
+    roundScoreboard.forEach((player, index) => {
+        const playerItem = document.createElement('div');
+        playerItem.className = 'player-item';
+
+        const rank = document.createElement('div');
+        rank.className = 'player-rank';
+        rank.textContent = `#${index + 1}`;
+
+        const avatar = document.createElement('div');
+        avatar.className = 'player-avatar';
+        if (player.avatar) {
+            const img = document.createElement('img');
+            img.src = player.avatar;
+            img.className = 'player-avatar-img';
+            img.alt = player.name;
+            avatar.appendChild(img);
+        } else {
+            avatar.textContent = '👤';
+        }
+
+        const info = document.createElement('div');
+        info.className = 'player-info';
+
+        const name = document.createElement('div');
+        name.className = 'player-name';
+        name.textContent = player.name || 'Unknown';
+
+        const stats = document.createElement('div');
+        stats.className = 'player-stats';
+        const kdSpan = document.createElement('span');
+        kdSpan.textContent = `K/D: ${player.kills || 0}/${player.deaths || 0}`;
+        const deliveriesSpan = document.createElement('span');
+        deliveriesSpan.textContent = `Deliveries: ${player.deliveries || 0}`;
+        stats.appendChild(kdSpan);
+        stats.appendChild(deliveriesSpan);
+
+        info.appendChild(name);
+        info.appendChild(stats);
+
+        const score = document.createElement('div');
+        score.className = 'player-score';
+        score.textContent = player.score || 0;
+
+        playerItem.appendChild(rank);
+        playerItem.appendChild(avatar);
+        playerItem.appendChild(info);
+        playerItem.appendChild(score);
+
+        roundScoreboardList.appendChild(playerItem);
+    });
+
+    // If no players, show message
+    if (roundScoreboard.length === 0) {
+        const noPlayersMsg = document.createElement('div');
+        noPlayersMsg.className = 'no-players-message';
+        noPlayersMsg.textContent = 'No players in this round';
+        noPlayersMsg.style.textAlign = 'center';
+        noPlayersMsg.style.padding = '20px';
+        noPlayersMsg.style.color = '#b0b0b0';
+        roundScoreboardList.appendChild(noPlayersMsg);
+    }
 }
 
 // Shop Management

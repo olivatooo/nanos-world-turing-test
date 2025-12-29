@@ -10,7 +10,7 @@ Events.SubscribeRemote("Highlight", function(character)
 	character:SetHighlightEnabled(true, 0)
 	local timer = Timer.SetTimeout(function(_char)
 		_char:SetHighlightEnabled(false, 0)
-	end, 25000, character)
+	end, 5000, character)
 	Timer.Bind(timer, character)
 end)
 
