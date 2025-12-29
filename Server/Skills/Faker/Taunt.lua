@@ -8,5 +8,5 @@ end)
 
 function Taunt(character)
 	character:PlayAnimation(GetRandomAnimation(), AnimationSlotType.UpperBody)
-	Events.BroadcastRemote("PlayTauntAt", character:GetLocation(), math.random(1, 14))
+	Events.BroadcastRemote("PlayTauntAt", character, math.random(1, 23))
 end

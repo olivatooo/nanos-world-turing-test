@@ -87,10 +87,10 @@ function PlayMusic(song)
 	)
 end
 
-function PlayTauntAt(location, number)
-	Sound(
+function PlayTauntAt(character, number)
+	local sound = Sound(
 		location,
-		"package://turing-test/Client/SFX/taunt_" .. number .. ".ogg",
+		"package://turing-test/Client/SFX/Taunts/" .. number .. ".ogg",
 		false, -- Is 2D Sound
 		true, -- Auto Destroy (if to destroy after finished playing)
 		SoundType.SFX,
@@ -100,6 +100,7 @@ function PlayTauntAt(location, number)
 		1000,
 		AttenuationFunction.NaturalSound
 	)
+	sound:AttachTo(character)
 end
 
 Events.SubscribeRemote("PlayTauntAt", PlayTauntAt)
