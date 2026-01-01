@@ -32,10 +32,10 @@ Config.Players = {
 
 -- Game State Time Limits (in seconds)
 Config.GameStateTimes = {
-	WaitingForPlayers = 1,
-	PreparingMatch = 1,
+	WaitingForPlayers = 20,
+	PreparingMatch = 10,
 	Running = 200,
-	EndGame = 15,
+	EndGame = 10,
 	Reset = 5,
 }
 
@@ -51,7 +51,7 @@ Config.Spawns = {
 	-- Props
 	PropsPerHunter = 3, -- Initial props spawned per hunter
 	PropsPerHunterPeriodic = 1, -- Props spawned per hunter every interval
-	PropsPerFaker = 2, -- Props each faker starts with
+	PropsPerFaker = 1, -- Props each faker starts with
 	PropSpawnInterval = 15, -- Seconds between periodic prop spawns
 	-- Hot Dog Stands
 	HotDogStandsPerHunter = 2,
@@ -72,7 +72,7 @@ Config.Scoring = {
 
 -- Damage Configuration
 Config.Damage = {
-	FakerPunch = 5,
+	FakerPunch = 6,
 	BotDeathToHunter = 25, -- Damage applied to hunter when killing a bot
 	HunterPropInteraction = 10, -- Damage to hunter when interacting with prop
 }
