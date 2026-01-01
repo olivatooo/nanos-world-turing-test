@@ -5,7 +5,7 @@
     # contributors
     author =                "olivato"
     # version
-    version =               "0.0.15"
+    version =               "0.0.16"
 
 # game-mode configurations
 [game_mode]
@@ -29,7 +29,7 @@
     ]
     # compatible maps - maps to be highlighted when starting a new game through main menu
     compatible_maps = [
-                            
+        "tt-turing-test",
     ]
 
 # game-mode custom settings configurations
