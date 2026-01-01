@@ -24,7 +24,7 @@ Config.Teams = {
 
 -- Player Configuration
 Config.Players = {
-	MinPlayers = 1,
+	MinPlayers = 2,
 	-- Hunter ratio: 1 hunter for every 3 fakers
 	-- Formula: numHunters = ceil(playerCount / 4)
 	HunterRatio = 1 / 3, -- Used for reference, actual calculation uses ceil(playerCount / 4)
