@@ -41,25 +41,25 @@ Config.GameStateTimes = {
 
 -- Bot Configuration
 Config.Bots = {
-	PerPlayer = 8,
-	MaxBots = 80,
+	PerPlayer = 6,
+	MaxBots = 64,
 	SpawnOffset = 300, -- Distance between bot spawns
 }
 
 -- Spawn Configuration
 Config.Spawns = {
 	-- Props
-	PropsPerHunter = 3, -- Initial props spawned per hunter
+	PropsPerHunter = 3,        -- Initial props spawned per hunter
 	PropsPerHunterPeriodic = 1, -- Props spawned per hunter every interval
-	PropsPerFaker = 1, -- Props each faker starts with
-	PropSpawnInterval = 15, -- Seconds between periodic prop spawns
+	PropsPerFaker = 1,         -- Props each faker starts with
+	PropSpawnInterval = 15,    -- Seconds between periodic prop spawns
 	-- Hot Dog Stands
 	HotDogStandsPerHunter = 2,
 	-- Visual
 	PropScale = 0.25,
 	HotDogStandScale = 0.8,
 	HotDogStandTriggerSize = 200,
-	PropResetHeight = 65, -- Height offset for prop reset
+	PropResetHeight = 65,  -- Height offset for prop reset
 	PropRotationTimer = 25, -- Milliseconds between prop rotation updates
 }
 
@@ -73,7 +73,7 @@ Config.Scoring = {
 -- Damage Configuration
 Config.Damage = {
 	FakerPunch = 6,
-	BotDeathToHunter = 25, -- Damage applied to hunter when killing a bot
+	BotDeathToHunter = 25,     -- Damage applied to hunter when killing a bot
 	HunterPropInteraction = 10, -- Damage to hunter when interacting with prop
 }
 
