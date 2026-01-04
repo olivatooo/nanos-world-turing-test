@@ -189,7 +189,7 @@ function setObjectives(objectives) {
 }
 
 // Progress Objectives Management
-function updateObjectivesProgress(amountOfTotalFakers, amountOfFakersKilled, amountOfTotalProps, amountOfPropsDelivered) {
+function updateObjectivesProgress(amountOfTotalFakers, amountOfFakersKilled, amountOfTotalHunters, amountOfHuntersKilled, amountOfTotalProps, amountOfPropsDelivered) {
     // Update Fakers Progress
     const fakersProgress = document.getElementById('fakersProgress');
     fakersProgress.innerHTML = '';
@@ -206,6 +206,24 @@ function updateObjectivesProgress(amountOfTotalFakers, amountOfFakersKilled, amo
         }
 
         fakersProgress.appendChild(icon);
+    }
+
+    // Update Hunters Progress
+    const huntersProgress = document.getElementById('huntersProgress');
+    huntersProgress.innerHTML = '';
+
+    for (let i = 0; i < amountOfTotalHunters; i++) {
+        const icon = document.createElement('img');
+        icon.src = 'Icons/ak47.svg';
+        icon.classList.add('objectives-progress-icon');
+
+        if (i < amountOfHuntersKilled) {
+            icon.classList.add('completed-red');
+        } else {
+            icon.classList.add('pending');
+        }
+
+        huntersProgress.appendChild(icon);
     }
 
     // Update Props Progress

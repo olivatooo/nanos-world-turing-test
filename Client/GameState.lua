@@ -67,6 +67,8 @@ function GameState(game_state)
 		"updateObjectivesProgress",
 		game_state.AmountOfTotalFakers,
 		game_state.AmountOfFakersKilled,
+		game_state.AmountOfTotalHunters,
+		game_state.AmountOfTotalHuntersKilled,
 		game_state.AmountOfTotalProps,
 		game_state.AmountOfPropsDelivered
 	)
