@@ -15,8 +15,8 @@ function EndGame()
 		-- Check if all fakers are killed (Hunter wins)
 		winnerTeam = "red" -- Hunter wins
 	elseif
-		GameState.AmountOfTotalHuntersKilled >= GameState.AmountOfTotalHunters
-		and GameState.AmountOfTotalHunters > 0
+			GameState.AmountOfTotalHuntersKilled >= GameState.AmountOfTotalHunters
+			and GameState.AmountOfTotalHunters > 0
 	then
 		-- Check if all hunters are killed (Fakers win)
 		winnerTeam = "blue" -- Fakers win
@@ -34,7 +34,7 @@ function EndGame()
 		local roundScore = currentScore - roundStartScore
 
 		if #Player.GetAll() >= 4 then
-			Events.CallRemote("SubmitScoreToSteamLeaderboard", player, roundScore)
+			Events.BroadcastRemote("SubmitScoreToSteamLeaderboard", roundScore)
 		end
 
 		table.insert(roundScoreboard, {

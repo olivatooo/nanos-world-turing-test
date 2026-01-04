@@ -6,7 +6,7 @@ Sky.SetTimeOfDay(11, 0)
 Sky.SetSunLightIntensity(10)
 
 WebUI = WebUI(
-	"Awesome UI", -- Name
+	"Awesome UI",           -- Name
 	"file://UI/Index.html", -- Path relative to this package (Client/)
 	WidgetVisibility.Visible -- Is Visible on Screen
 )
