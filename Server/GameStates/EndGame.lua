@@ -34,7 +34,7 @@ function EndGame()
 		local roundScore = currentScore - roundStartScore
 
 		if #Player.GetAll() >= 4 then
-			Events.BroadcastRemote("SubmitScoreToSteamLeaderboard", roundScore)
+			Events.CallRemote("SubmitScoreToSteamLeaderboard", player, roundScore)
 		end
 
 		table.insert(roundScoreboard, {
