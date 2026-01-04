@@ -756,6 +756,90 @@ function Blindfold(time_in_seconds) {
     }, duration * 1000);
 }
 
+// EMP Management
+let empInterval = null;
+let empTimer = null;
+
+function EMP(time_in_seconds = 5) {
+    const empOverlay = document.getElementById('empOverlay');
+    const empProgressFill = document.getElementById('empProgressFill');
+    
+    if (!empOverlay || !empProgressFill) {
+        console.error('EMP overlay elements not found');
+        return;
+    }
+
+    // Clear any existing EMP timer
+    if (empInterval) {
+        clearInterval(empInterval);
+        empInterval = null;
+    }
+    if (empTimer) {
+        clearTimeout(empTimer);
+        empTimer = null;
+    }
+
+    // Validate time
+    const duration = parseFloat(time_in_seconds);
+    if (isNaN(duration) || duration <= 0) {
+        console.error('Invalid EMP duration:', time_in_seconds);
+        return;
+    }
+
+    // Show overlay
+    empOverlay.classList.add('active');
+    
+    // Reset progress bar to 0
+    empProgressFill.style.width = '0%';
+    
+    let elapsed = 0;
+    const updateInterval = 0.1; // Update every 100ms for smooth progress
+    
+    // Update progress bar (filling up from 0 to 100%)
+    empInterval = setInterval(() => {
+        elapsed += updateInterval;
+        if (elapsed >= duration) {
+            elapsed = duration;
+        }
+        
+        const percentage = (elapsed / duration) * 100;
+        empProgressFill.style.width = percentage + '%';
+        
+        if (elapsed >= duration) {
+            clearInterval(empInterval);
+            empInterval = null;
+        }
+    }, updateInterval * 1000);
+
+    // Hide overlay after duration
+    empTimer = setTimeout(() => {
+        empOverlay.classList.remove('active');
+        if (empInterval) {
+            clearInterval(empInterval);
+            empInterval = null;
+        }
+        empTimer = null;
+    }, duration * 1000);
+}
+
+function HideEMP() {
+    const empOverlay = document.getElementById('empOverlay');
+    
+    if (empOverlay) {
+        empOverlay.classList.remove('active');
+    }
+    
+    // Clear any existing EMP timers
+    if (empInterval) {
+        clearInterval(empInterval);
+        empInterval = null;
+    }
+    if (empTimer) {
+        clearTimeout(empTimer);
+        empTimer = null;
+    }
+}
+
 // Expose functions to window for Lua integration
 window.TuringTestUI = {
     showPage,
@@ -777,7 +861,9 @@ window.TuringTestUI = {
     setShopItems,
     playUISound,
     playRandomUISound,
-    Blindfold
+    Blindfold,
+    EMP,
+    HideEMP
 };
 
 Events.Subscribe("playRandomUISound", playRandomUISound);
@@ -800,6 +886,8 @@ Events.Subscribe("showPage", showPage);
 Events.Subscribe("showHowToPlay", showHowToPlay);
 Events.Subscribe("showHowToPlayByStage", showHowToPlayByStage);
 Events.Subscribe("Blindfold", Blindfold);
+Events.Subscribe("EMP", EMP);
+Events.Subscribe("HideEMP", HideEMP);
 
 
 // Initialize themes for how-to pages

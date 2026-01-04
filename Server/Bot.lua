@@ -16,7 +16,7 @@ function SetCharacterHitBehaviour(character)
 				_character:Jump()
 			end
 			if math.random() > 0.5 then
-				_character:SetGaitMode(math.random(0, 2))
+				_character:SetGaitMode(math.random(1, 2))
 			end
 			if math.random() > 0.5 then
 				_character:SetStanceMode(math.random(1, 2))
@@ -46,13 +46,13 @@ function SetCharacterBehaviour(character)
 			manny:SetStanceMode(math.random(1, 2))
 		end
 		if math.random() > 0.95 then
-			manny:SetGaitMode(math.random(0, 2))
+			manny:SetGaitMode(math.random(1, 2))
 		end
 		if math.random() > 0.99 then
-			manny:SetGaitMode(math.random(0, 2))
+			manny:SetRagdollMode(true)
 		end
-		if math.random() > 0.99 then
-			-- manny:SetRagdollMode(true)
+		if math.random() > 0.80 then
+			manny:SetRagdollMode(false)
 		end
 		if math.random() > 0.9 then
 			Taunt(manny)

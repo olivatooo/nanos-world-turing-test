@@ -11,7 +11,7 @@ function Tomato(player)
 	prop:SetValue("IsFake", true, true)
 	prop:SetScale(Vector(3, 3, 3))
 	prop:SetLifeSpan(10)
-	prop:AddImpulse(forward_vector * 5000, true)
+	prop:AddImpulse(forward_vector * 1000, true)
 	prop:Subscribe("Hit", function(self, impact_force, normal_impulse, impact_location, velocity)
 		Particle(
 			impact_location,
@@ -20,6 +20,7 @@ function Tomato(player)
 			true, -- Auto Destroy?
 			true -- Auto Activate?
 		)
+		Console.Log(normal_impulse)
 		Events.BroadcastRemote("TomatoDecal", impact_location, normal_impulse)
 		self:Destroy()
 	end)

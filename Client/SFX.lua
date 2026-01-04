@@ -4,10 +4,10 @@ function PlayWooshAt(location)
 	Sound(
 		location,
 		"package://turing-test/Client/SFX/whosh.ogg",
-		false, -- Is 2D Sound
-		true, -- Auto Destroy (if to destroy after finished playing)
+		false,               -- Is 2D Sound
+		true,                -- Auto Destroy (if to destroy after finished playing)
 		SoundType.SFX,
-		1, -- Volume
+		1,                   -- Volume
 		RandomFloat(0.8, 1.2), -- Pitch
 		1000,
 		2000,
@@ -19,10 +19,10 @@ function PlaySFXAt(location, sfx)
 	Sound(
 		location,
 		"package://turing-test/Client/SFX/" .. sfx,
-		false, -- Is 2D Sound
-		true, -- Auto Destroy (if to destroy after finished playing)
+		false,               -- Is 2D Sound
+		true,                -- Auto Destroy (if to destroy after finished playing)
 		SoundType.SFX,
-		1, -- Volume
+		1,                   -- Volume
 		RandomFloat(0.8, 1.2), -- Pitch
 		2000,
 		10000,
@@ -34,10 +34,10 @@ function PlayNanosSFXAt(location, sfx)
 	Sound(
 		location,
 		"nanos-world::" .. sfx,
-		false, -- Is 2D Sound
-		true, -- Auto Destroy (if to destroy after finished playing)
+		false,               -- Is 2D Sound
+		true,                -- Auto Destroy (if to destroy after finished playing)
 		SoundType.SFX,
-		1, -- Volume
+		1,                   -- Volume
 		RandomFloat(0.8, 1.2), -- Pitch
 		2000,
 		10000,
@@ -56,7 +56,7 @@ function PlayOST(number)
 		true, -- Is 2D Sound
 		false, -- Auto Destroy (if to destroy after finished playing)
 		SoundType.Music,
-		1, -- Volume
+		1,   -- Volume
 		1,
 		nil,
 		nil,
@@ -94,8 +94,8 @@ function PlayTauntAt(character, number)
 		false, -- Is 2D Sound
 		true, -- Auto Destroy (if to destroy after finished playing)
 		SoundType.SFX,
-		1, -- Volume
-		1, -- Pitch
+		1,   -- Volume
+		1,   -- Pitch
 		500,
 		1000,
 		AttenuationFunction.NaturalSound

@@ -1335,3 +1335,118 @@ body.theme-red .nav-button.primary {
     background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.5));
     transition: width 0.1s linear;
 }
+
+/* EMP Overlay */
+
+.emp-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: transparent;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.emp-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.emp-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 40px 60px;
+    border-radius: 15px;
+    border: 3px solid rgba(255, 215, 0, 0.8);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+}
+
+.emp-icon {
+    width: 120px;
+    height: 120px;
+    filter: brightness(0) saturate(100%) invert(75%) sepia(100%) saturate(500%) hue-rotate(5deg);
+    opacity: 0.9;
+    animation: emp-pulse 1s ease-in-out infinite;
+}
+
+@keyframes emp-pulse {
+    0%, 100% {
+        transform: scale(1);
+        filter: brightness(0) saturate(100%) invert(75%) sepia(100%) saturate(500%) hue-rotate(5deg);
+    }
+    50% {
+        transform: scale(1.1);
+        filter: brightness(0) saturate(100%) invert(75%) sepia(100%) saturate(700%) hue-rotate(5deg) drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+    }
+}
+
+.emp-text {
+    font-family: 'Chewy', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: calc(24px * var(--font-size-increase));
+    color: #FFD700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8),
+                 0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+.emp-key {
+    display: inline-block;
+    padding: 4px 12px;
+    margin: 0 4px;
+    font-size: calc(28px * var(--font-size-increase));
+    font-weight: bold;
+    font-family: 'Roboto', monospace;
+    color: #000;
+    background: linear-gradient(180deg, #FFD700 0%, #FFA500 100%);
+    border: 2px solid #FFD700;
+    border-radius: 6px;
+    box-shadow: 0 4px 0 #B8860B,
+                0 0 15px rgba(255, 215, 0, 0.5);
+    text-shadow: none;
+    animation: emp-key-pulse 0.8s ease-in-out infinite;
+}
+
+@keyframes emp-key-pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 0 #B8860B,
+                    0 0 15px rgba(255, 215, 0, 0.5);
+    }
+    50% {
+        transform: scale(1.15);
+        box-shadow: 0 4px 0 #B8860B,
+                    0 0 25px rgba(255, 215, 0, 0.9);
+    }
+}
+
+.emp-progress-bar {
+    width: 400px;
+    height: 30px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(255, 215, 0, 0.8);
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+}
+
+.emp-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    transition: width 0.1s linear;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+}

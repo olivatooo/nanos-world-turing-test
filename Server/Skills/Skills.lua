@@ -3,6 +3,7 @@ Package.Require("Hunter/Prisioner.lua")
 Package.Require("Hunter/Sabotage.lua")
 Package.Require("Hunter/Blindfold.lua")
 Package.Require("Hunter/FakeProp.lua")
+Package.Require("Hunter/EMP.lua")
 
 Package.Require("Faker/Taunt.lua")
 Package.Require("Faker/Whistle.lua")
