@@ -1,4 +1,5 @@
 -- Teams are now defined in Shared/Index.lua as Config.Teams
+MAP_CONFIG = Server.GetMapConfig()
 BotTeam = Config.Teams.Bot
 HunterTeam = Config.Teams.Hunter
 FakerTeam = Config.Teams.Faker
@@ -31,7 +32,55 @@ function SpawnCharacter(location)
 	return mannequin
 end
 
-function SpawnBots(location, amount_x, amount_y)
+BotPossibleSpawnPoints = Server.GetMapSpawnPoints()
+
+-- Shuffled bot spawn points and tracking
+local shuffledBotSpawnPoints = {}
+local currentBotSpawnPointIndex = 0
+
+-- Function to shuffle bot spawn points
+local function ShuffleBotSpawnPoints()
+	-- Reset the shuffled array
+	shuffledBotSpawnPoints = {}
+
+	-- Copy spawn points to shuffled array
+	if BotPossibleSpawnPoints then
+		for i = 1, #BotPossibleSpawnPoints do
+			shuffledBotSpawnPoints[i] = BotPossibleSpawnPoints[i]
+		end
+
+		-- Fisher-Yates shuffle algorithm
+		for i = #shuffledBotSpawnPoints, 2, -1 do
+			local j = math.random(i)
+			shuffledBotSpawnPoints[i], shuffledBotSpawnPoints[j] =
+				shuffledBotSpawnPoints[j], shuffledBotSpawnPoints[i]
+		end
+	end
+
+	-- Reset index
+	currentBotSpawnPointIndex = 0
+end
+
+-- Initialize shuffled bot spawn points
+ShuffleBotSpawnPoints()
+
+function SpawnBots(amount_x, amount_y)
+	-- Check if we need to reshuffle (all spawn points used)
+	if currentBotSpawnPointIndex >= #shuffledBotSpawnPoints then
+		ShuffleBotSpawnPoints()
+	end
+
+	-- Get the next spawn point from shuffled list
+	local location
+	if #shuffledBotSpawnPoints > 0 then
+		currentBotSpawnPointIndex = currentBotSpawnPointIndex + 1
+		local spawnPoint = shuffledBotSpawnPoints[currentBotSpawnPointIndex]
+		location = spawnPoint.location
+	else
+		-- Fallback to default location if no spawn points configured
+		location = Vector(-6000, 2115, 100)
+	end
+
 	local offset = Config.Bots.SpawnOffset
 	for i = 1, amount_x do
 		for j = 1, amount_y do
@@ -161,7 +210,7 @@ function StartGame()
 	local amount_x = math.ceil(math.sqrt(totalBots))
 	local amount_y = math.ceil(totalBots / amount_x)
 
-	SpawnBots(Vector(-6000, 2115, 100), amount_x, amount_y)
+	SpawnBots(amount_x, amount_y)
 	SpawnPlayers()
 	SpawnHotDogStands()
 	SpawnProps()
@@ -180,8 +229,54 @@ SkeletalCharacters = {
 	"nanos-world::SK_Adventure_05_Full_02",
 }
 
+HunterPossibleSpawnPoints = Server.GetMapConfig().hunter_spawn_points
+
+-- Shuffled spawn points and tracking
+local shuffledHunterSpawnPoints = {}
+local currentSpawnPointIndex = 0
+
+-- Function to shuffle spawn points
+local function ShuffleHunterSpawnPoints()
+	-- Reset the shuffled array
+	shuffledHunterSpawnPoints = {}
+
+	-- Copy spawn points to shuffled array
+	if HunterPossibleSpawnPoints then
+		for i = 1, #HunterPossibleSpawnPoints do
+			shuffledHunterSpawnPoints[i] = HunterPossibleSpawnPoints[i]
+		end
+
+		-- Fisher-Yates shuffle algorithm
+		for i = #shuffledHunterSpawnPoints, 2, -1 do
+			local j = math.random(i)
+			shuffledHunterSpawnPoints[i], shuffledHunterSpawnPoints[j] =
+				shuffledHunterSpawnPoints[j], shuffledHunterSpawnPoints[i]
+		end
+	end
+
+	-- Reset index
+	currentSpawnPointIndex = 0
+end
+
+-- Initialize shuffled spawn points
+ShuffleHunterSpawnPoints()
+
 function SpawnHunter(player)
-	local location = Vector(RandomFloat(-5810, -5200), RandomFloat(2500, 3000), 100)
+	-- Check if we need to reshuffle (all spawn points used)
+	if currentSpawnPointIndex >= #shuffledHunterSpawnPoints then
+		ShuffleHunterSpawnPoints()
+	end
+
+	-- Get the next spawn point from shuffled list
+	local location
+	if #shuffledHunterSpawnPoints > 0 then
+		currentSpawnPointIndex = currentSpawnPointIndex + 1
+		local spawnPoint = shuffledHunterSpawnPoints[currentSpawnPointIndex]
+		location = spawnPoint.location
+	else
+		-- Fallback to random location if no spawn points configured
+		location = Vector(RandomFloat(-5810, -5200), RandomFloat(2500, 3000), 100)
+	end
 	local character = Character(location, Rotator(0, 0, 0), SkeletalCharacters[math.random(#SkeletalCharacters)])
 	character:SetCameraMode(CameraMode.FPSOnly)
 	local weapon = AK47(Vector(), Rotator())

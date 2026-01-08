@@ -2,11 +2,11 @@ function SetCharacterHitBehaviour(character)
 	character:Subscribe("TakeDamage", function(self, damage, bone, type, from_direction, instigator, causer)
 		Timer.SetTimeout(function(_character)
 			if math.random() > 0.5 then
-				local location = GetRandomVector()
+				local location = GetRandomVector(_character)
 				_character:MoveTo(Vector(location.x, location.y, location.z), 10)
 			end
 			if math.random() > 0.5 then
-				local location = GetRandomVector()
+				local location = GetRandomVector(_character)
 				_character:LookAt(Vector(location.x, location.y, location.z))
 			end
 			if math.random() > 0.8 then
@@ -32,11 +32,11 @@ function SetCharacterBehaviour(character)
 			return false
 		end
 		if math.random() > 0.5 and manny:GetMovingTo() == Vector(0, 0, 0) then
-			local location = GetRandomVector()
+			local location = GetRandomVector(manny)
 			manny:MoveTo(Vector(location.x, location.y, location.z), 10)
 		end
 		if math.random() > 0.5 then
-			local location = GetRandomVector()
+			local location = GetRandomVector(manny)
 			manny:LookAt(Vector(location.x, location.y, location.z))
 		end
 		if math.random() > 0.90 then

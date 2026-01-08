@@ -1,19 +1,4 @@
-HotDogStandPossibleSpawnPoints = {
-	Vector(-2460, 1890, 0),
-	Vector(-7871, 4127, 0),
-	Vector(-7298, 5830, 0),
-	Vector(-5317, 5900, 0),
-	Vector(-3282, 5707, 0),
-	Vector(-2259, 6599, 150),
-	Vector(-2590, 4900, -150),
-	Vector(-1533, 4146, 0),
-	Vector(-5785, 4882, 10),
-	Vector(-4198, 2833, 0),
-	Vector(-6095, 2789, 0),
-	Vector(-7774, 2177, -665),
-	Vector(-6364, 780, 0),
-	Vector(-4100, 4277, 10),
-}
+HotDogStandPossibleSpawnPoints = Server.GetMapConfig().hotdog_spawn_points
 
 function SpawnHotDogStand(location, rotation)
 	local hotdog_stand =
@@ -71,6 +56,6 @@ function SpawnHotDogStands()
 
 	-- Spawn up to the calculated count
 	for i = 1, spawnCount do
-		SpawnHotDogStand(shuffledSpawns[i], Rotator())
+		SpawnHotDogStand(shuffledSpawns[i].location, Rotator())
 	end
 end

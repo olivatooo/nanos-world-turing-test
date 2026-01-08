@@ -2,19 +2,16 @@ function RandomFloat(min, max)
 	return min + math.random() * (max - min)
 end
 
-function GetRandomVector()
+function GetRandomVector(mannequin)
+	if mannequin == nil then
+		return Vector()
+	end
+	local location = mannequin:GetLocation()
+	location = location + Vector(math.random(-1000, 1000), math.random(-1000, 1000), math.random(-200, 200))
 	return {
-		x = RandomFloat(-10000.326414, -1047.000000),
-		y = RandomFloat(-800.686977, 6949.999361),
-		z = RandomFloat(-150, 150),
-	}
-end
-
-function GetRandomSpawnPoint()
-	return {
-		x = RandomFloat(-8316.326414, -1047.000000),
-		y = RandomFloat(500.686977, 6949.999361),
-		z = RandomFloat(-150, 150),
+		x = location.X,
+		y = location.Y,
+		z = location.Z,
 	}
 end
 
