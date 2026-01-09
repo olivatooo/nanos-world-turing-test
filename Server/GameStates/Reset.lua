@@ -17,27 +17,3 @@ function ResetGameState()
 end
 
 ResetGameState()
-
-function Clear()
-	for _, v in pairs(Character.GetAll()) do
-		v:Destroy()
-	end
-	for _, v in pairs(Particle.GetAll()) do
-		v:Destroy()
-	end
-	for _, v in pairs(Trigger.GetAll()) do
-		v:Destroy()
-	end
-	for _, v in pairs(Particle.GetAll()) do
-		v:Destroy()
-	end
-	for _, v in pairs(Prop.GetAll()) do
-		v:Destroy()
-	end
-	for _, v in pairs(StaticMesh.GetAll()) do
-		v:Destroy()
-	end
-	for _, v in pairs(Weapon.GetAll()) do
-		v:Destroy()
-	end
-end

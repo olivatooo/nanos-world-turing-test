@@ -86,7 +86,7 @@ function EndGame(winnerTeam, roundScoreboard, isFinalRound)
 	-- This is more reliable than checking character team, as character may be dead/unpossessed
 	local player = Client.GetLocalPlayer()
 	local myTeam = player:GetValue("Team")
-	
+
 	-- Fallback: try to get team from character if player value is not available
 	if not myTeam or (myTeam ~= "red" and myTeam ~= "blue") then
 		local character = player:GetControlledCharacter()
@@ -103,7 +103,7 @@ function EndGame(winnerTeam, roundScoreboard, isFinalRound)
 			myTeam = "blue"
 		end
 	end
-	
+
 	Console.Log("My team: " .. myTeam .. ", Winner team: " .. winnerTeam)
 
 	-- Get player stats (total scores)
@@ -128,7 +128,16 @@ function EndGame(winnerTeam, roundScoreboard, isFinalRound)
 		roundScoreboardJSON = JSON.stringify(roundScoreboard)
 	end
 
-	WebUI:CallEvent("showEndPage", winnerTeam, myTeam, numberOfObjectives, totalScore, skillsUsed, roundScoreboardJSON, isFinalRound or false)
+	WebUI:CallEvent(
+		"showEndPage",
+		winnerTeam,
+		myTeam,
+		numberOfObjectives,
+		totalScore,
+		skillsUsed,
+		roundScoreboardJSON,
+		isFinalRound or false
+	)
 	PlayMusic(winnerTeam)
 end
 
