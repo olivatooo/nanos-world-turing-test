@@ -1,4 +1,6 @@
 function EndGame()
+	-- Increment round when transitioning from EndGame to WaitingForPlayers (round ended)			
+	GameState.CurrentRound = (GameState.CurrentRound or 0) + 1
 	-- Determine winner based on game conditions
 	-- Priority order:
 	-- 1. All props delivered → Fakers win (blue)
@@ -11,15 +13,23 @@ function EndGame()
 	-- Check if all props are delivered (Fakers win) - highest priority
 	if GameState.AmountOfPropsDelivered >= GameState.AmountOfTotalProps and GameState.AmountOfTotalProps > 0 then
 		winnerTeam = "blue" -- Fakers win
+		Console.Log(string.format("Winner: Fakers (blue) - Props delivered: %d/%d", GameState.AmountOfPropsDelivered, GameState.AmountOfTotalProps))
 	elseif GameState.AmountOfFakersKilled >= GameState.AmountOfTotalFakers and GameState.AmountOfTotalFakers > 0 then
 		-- Check if all fakers are killed (Hunter wins)
 		winnerTeam = "red" -- Hunter wins
+		Console.Log(string.format("Winner: Hunters (red) - Fakers killed: %d/%d", GameState.AmountOfFakersKilled, GameState.AmountOfTotalFakers))
 	elseif
 			GameState.AmountOfTotalHuntersKilled >= GameState.AmountOfTotalHunters
 			and GameState.AmountOfTotalHunters > 0
 	then
 		-- Check if all hunters are killed (Fakers win)
 		winnerTeam = "blue" -- Fakers win
+		Console.Log(string.format("Winner: Fakers (blue) - Hunters killed: %d/%d", GameState.AmountOfTotalHuntersKilled, GameState.AmountOfTotalHunters))
+	else
+		Console.Log(string.format("Winner: Hunters (red) - Timeout (Props: %d/%d, Fakers killed: %d/%d, Hunters killed: %d/%d)", 
+			GameState.AmountOfPropsDelivered, GameState.AmountOfTotalProps,
+			GameState.AmountOfFakersKilled, GameState.AmountOfTotalFakers,
+			GameState.AmountOfTotalHuntersKilled, GameState.AmountOfTotalHunters))
 	end
 
 	-- Collect per-round scores for each player
@@ -55,9 +65,12 @@ function EndGame()
 		return a.score > b.score
 	end)
 
+	-- Check if this is the final round
+	local isFinalRound = GameState.CurrentRound >= GameState.MaxRounds
+
 	-- Broadcast winner and round scoreboard to all clients
 	-- Each client will determine their own team and stats
-	Events.BroadcastRemote("EndGame", winnerTeam, roundScoreboard)
+	Events.BroadcastRemote("EndGame", winnerTeam, roundScoreboard, isFinalRound)
 
 	Timer.SetTimeout(Clear, 2500)
 end

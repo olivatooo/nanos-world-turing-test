@@ -8,6 +8,12 @@ function TransitionToStage(newStage)
 		print("[Server] Game State Transition: " .. GetStageName(previousStage) .. " -> " .. GetStageName(newStage))
 
 		if newStage == GameStage.WaitingForPlayers then
+			-- Check if game is finished (last state was EndGame and current round >= max rounds)
+			if previousStage == GameStage.EndGame and GameState.CurrentRound >= GameState.MaxRounds then
+				Console.Log("Game Finished Changing Map")
+				Events.Call("ChangeMap")
+				return
+			end
 			GameState.Time = Config.GameStateTimes.WaitingForPlayers
 			WaitingForPlayers()
 		elseif newStage == GameStage.PreparingMatch then
@@ -21,7 +27,7 @@ function TransitionToStage(newStage)
 			GameState.AmountOfFakersKilled = 0
 			GameState.AmountOfTotalHuntersKilled = 0
 			GameState.AmountOfPropsDelivered = 0
-			
+
 			-- Store each player's current score as the round start score
 			roundStartScores = {}
 			for _, player in pairs(Player.GetAll()) do
@@ -29,7 +35,7 @@ function TransitionToStage(newStage)
 				local currentScore = player:GetValue("Score") or 0
 				roundStartScores[playerId] = currentScore
 			end
-			
+
 			for _, v in pairs(Character.GetAll()) do
 				if v:GetTeam() == FakerTeam then
 					GameState.AmountOfTotalFakers = GameState.AmountOfTotalFakers + 1

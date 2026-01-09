@@ -62,6 +62,9 @@ function GameState(game_state)
 	-- Update timer
 	WebUI:CallEvent("setTimer", game_state.Time)
 
+	-- Update round display
+	WebUI:CallEvent("setRound", game_state.CurrentRound or 0, game_state.MaxRounds or 0)
+
 	-- Update objectives progress
 	WebUI:CallEvent(
 		"updateObjectivesProgress",
@@ -76,22 +79,32 @@ end
 
 Events.SubscribeRemote("GameState", GameState)
 
-function EndGame(winnerTeam, roundScoreboard)
+function EndGame(winnerTeam, roundScoreboard, isFinalRound)
 	Console.Log("EndGame received - Winner: " .. winnerTeam)
 
-	-- Get local player's character and team
+	-- Get local player's team from stored player value
+	-- This is more reliable than checking character team, as character may be dead/unpossessed
 	local player = Client.GetLocalPlayer()
-	local character = player:GetControlledCharacter()
-	local myTeam = "blue" -- Default to Faker
-
-	if character then
-		local team = character:GetTeam()
-		if team == 1 then -- HunterTeam
-			myTeam = "red"
-		elseif team == 2 then -- FakerTeam
+	local myTeam = player:GetValue("Team")
+	
+	-- Fallback: try to get team from character if player value is not available
+	if not myTeam or (myTeam ~= "red" and myTeam ~= "blue") then
+		local character = player:GetControlledCharacter()
+		if character then
+			local team = character:GetTeam()
+			if team == 1 then -- HunterTeam
+				myTeam = "red"
+			elseif team == 2 then -- FakerTeam
+				myTeam = "blue"
+			end
+		end
+		-- Default to blue if still not determined
+		if not myTeam or (myTeam ~= "red" and myTeam ~= "blue") then
 			myTeam = "blue"
 		end
 	end
+	
+	Console.Log("My team: " .. myTeam .. ", Winner team: " .. winnerTeam)
 
 	-- Get player stats (total scores)
 	local totalScore = player:GetValue("Score") or 0
@@ -115,7 +128,7 @@ function EndGame(winnerTeam, roundScoreboard)
 		roundScoreboardJSON = JSON.stringify(roundScoreboard)
 	end
 
-	WebUI:CallEvent("showEndPage", winnerTeam, myTeam, numberOfObjectives, totalScore, skillsUsed, roundScoreboardJSON)
+	WebUI:CallEvent("showEndPage", winnerTeam, myTeam, numberOfObjectives, totalScore, skillsUsed, roundScoreboardJSON, isFinalRound or false)
 	PlayMusic(winnerTeam)
 end
 

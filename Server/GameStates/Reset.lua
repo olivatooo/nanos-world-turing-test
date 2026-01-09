@@ -10,6 +10,8 @@ function ResetGameState()
 		AmountOfTotalHunters = 0,
 		AmountOfTotalHuntersKilled = 0,
 		Winner = 0,
+		CurrentRound = 0,
+		MaxRounds = Config.Rounds.MaxRounds,
 	}
 	previousStage = nil
 end

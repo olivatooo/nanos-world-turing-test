@@ -176,6 +176,14 @@ function setTimer(seconds) {
     timerValue.textContent = `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 }
 
+// Round Management
+function setRound(currentRound, maxRounds) {
+    const roundValue = document.getElementById('roundValue');
+    if (roundValue) {
+        roundValue.textContent = `${currentRound || 0}/${maxRounds || 0}`;
+    }
+}
+
 // Objectives Management
 function setObjectives(objectives) {
     const objectivesList = document.getElementById('objectivesList');
@@ -381,6 +389,11 @@ function updateScoreboard(players) {
     sortedPlayers.forEach((player, index) => {
         const div = document.createElement('div');
         div.className = 'player-item';
+        
+        // Add top-3 class for highlighting
+        if (index < 3) {
+            div.classList.add(`top-${index + 1}`);
+        }
 
         // Handle avatar - check if it's a URL or emoji/text
         let avatarContent = '👤'; // Default fallback
@@ -420,7 +433,7 @@ function setEndScreen(winner, stats) {
 }
 
 // Show end page with winner, player stats, and scoreboard
-function showEndPage(winner_team, my_team, number_of_objectives, score, amount_of_used_skills, round_scoreboard_json) {
+function showEndPage(winner_team, my_team, number_of_objectives, score, amount_of_used_skills, round_scoreboard_json, is_final_round) {
     // Validate teams
     if (winner_team !== 'blue' && winner_team !== 'red') {
         console.error('Invalid winner_team. Use "blue" or "red"');
@@ -439,6 +452,7 @@ function showEndPage(winner_team, my_team, number_of_objectives, score, amount_o
     const endObjectives = document.getElementById('endObjectives');
     const endObjectivesLabel = document.getElementById('endObjectivesLabel');
     const endSkillsUsed = document.getElementById('endSkillsUsed');
+    const roundScoreboardContainer = document.querySelector('.round-scoreboard');
 
     // Set theme colors based on winner for end screen
     endScreen.classList.remove('theme-blue', 'theme-red');
@@ -472,15 +486,31 @@ function showEndPage(winner_team, my_team, number_of_objectives, score, amount_o
     // Update skills used
     endSkillsUsed.textContent = amount_of_used_skills || '0';
 
-    // Copy current scoreboard to end screen (overall scoreboard)
+    // Copy current scoreboard to end screen (overall scoreboard) with top 3 highlighting
     const playerList = document.getElementById('playerList');
     const endScreenPlayerList = document.getElementById('endScreenPlayerList');
     if (playerList && endScreenPlayerList) {
+        // Clone the player list and highlight top 3
         endScreenPlayerList.innerHTML = playerList.innerHTML;
+        const topPlayers = endScreenPlayerList.querySelectorAll('.player-item');
+        topPlayers.forEach((player, index) => {
+            if (index < 3) {
+                player.classList.add(`top-${index + 1}`);
+            }
+        });
     }
 
-    // Update round scoreboard
-    updateRoundScoreboard(round_scoreboard_json);
+    // Hide round scoreboard if it's the final round
+    if (is_final_round && roundScoreboardContainer) {
+        roundScoreboardContainer.style.display = 'none';
+    } else if (roundScoreboardContainer) {
+        roundScoreboardContainer.style.display = 'block';
+        // Update round scoreboard
+        updateRoundScoreboard(round_scoreboard_json);
+    } else {
+        // Update round scoreboard
+        updateRoundScoreboard(round_scoreboard_json);
+    }
 
     // Show end screen page
     showPage('endScreen');
@@ -877,6 +907,7 @@ window.TuringTestUI = {
     setTheme,
     setHealth,
     setTimer,
+    setRound,
     setObjectives,
     updateObjectivesProgress,
     activateSkill,
@@ -910,6 +941,7 @@ Events.Subscribe("activateSkillByTheme", activateSkillByTheme);
 Events.Subscribe("setObjectives", setObjectives);
 Events.Subscribe("updateObjectivesProgress", updateObjectivesProgress);
 Events.Subscribe("setTimer", setTimer);
+Events.Subscribe("setRound", setRound);
 Events.Subscribe("setHealth", setHealth);
 Events.Subscribe("setTheme", setTheme);
 Events.Subscribe("showPage", showPage);

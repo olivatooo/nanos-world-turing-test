@@ -1,4 +1,4 @@
-Maps = {"tt-polygon-city", "tt-polygon-city-plaza"}
+Maps = { "tt-polygon-city", "tt-polygon-city-plaza" }
 GameState = {}
 Achievement = { Damage = 0, Kills = 0, Jumps = 0, Throws = 0, Deliveries = 0 }
 
@@ -33,11 +33,16 @@ Config.Players = {
 
 -- Game State Time Limits (in seconds)
 Config.GameStateTimes = {
-	WaitingForPlayers = 20,
-	PreparingMatch = 10,
+	WaitingForPlayers = 5,
+	PreparingMatch = 5,
 	Running = 200,
 	EndGame = 10,
 	Reset = 5,
+}
+
+-- Round Configuration
+Config.Rounds = {
+	MaxRounds = 8, -- Maximum number of rounds in a match
 }
 
 -- Bot Configuration
@@ -50,17 +55,17 @@ Config.Bots = {
 -- Spawn Configuration
 Config.Spawns = {
 	-- Props
-	PropsPerHunter = 3, -- Initial props spawned per hunter
+	PropsPerHunter = 3,        -- Initial props spawned per hunter
 	PropsPerHunterPeriodic = 1, -- Props spawned per hunter every interval
-	PropsPerFaker = 1, -- Props each faker starts with
-	PropSpawnInterval = 15, -- Seconds between periodic prop spawns
+	PropsPerFaker = 1,         -- Props each faker starts with
+	PropSpawnInterval = 15,    -- Seconds between periodic prop spawns
 	-- Hot Dog Stands
 	HotDogStandsPerHunter = 2,
 	-- Visual
 	PropScale = 0.25,
 	HotDogStandScale = 0.8,
 	HotDogStandTriggerSize = 200,
-	PropResetHeight = 65, -- Height offset for prop reset
+	PropResetHeight = 65,  -- Height offset for prop reset
 	PropRotationTimer = 25, -- Milliseconds between prop rotation updates
 }
 
@@ -74,7 +79,7 @@ Config.Scoring = {
 -- Damage Configuration
 Config.Damage = {
 	FakerPunch = 6,
-	BotDeathToHunter = 25, -- Damage applied to hunter when killing a bot
+	BotDeathToHunter = 25,     -- Damage applied to hunter when killing a bot
 	HunterPropInteraction = 10, -- Damage to hunter when interacting with prop
 }
 

@@ -1,4 +1,5 @@
 -- Teams are now defined in Shared/Index.lua as Config.Teams
+math.randomseed(os.time())
 MAP_CONFIG = Server.GetMapConfig()
 BotTeam = Config.Teams.Bot
 HunterTeam = Config.Teams.Hunter
@@ -20,7 +21,7 @@ function SpawnCharacter(location)
 	local mannequin
 	if math.random() > 0.5 then
 		mannequin =
-			Character(Vector(location.X, location.Y, 200), Rotator(0, math.random(360), 0), "nanos-world::SK_Mannequin")
+				Character(Vector(location.X, location.Y, 200), Rotator(0, math.random(360), 0), "nanos-world::SK_Mannequin")
 	else
 		mannequin = Character(
 			Vector(location.X, location.Y, 200),
@@ -174,11 +175,13 @@ function SpawnPlayers()
 		local playerId = player:GetID()
 		if selectedHunters[playerId] then
 			Console.Log("Player " .. player:GetName() .. " assigned as HUNTER")
+			player:SetValue("Team", "red", true) -- Store team as player value
 			Events.CallRemote("SetTheme", player, "red")
 			SpawnHunter(player)
 		elseif characterIndex <= #shuffledCharacters then
 			local character = shuffledCharacters[characterIndex]
 			Console.Log("Player " .. player:GetName() .. " assigned as FAKER")
+			player:SetValue("Team", "blue", true) -- Store team as player value
 			Events.CallRemote("SetTheme", player, "blue")
 			character:SetTeam(FakerTeam)
 			character:SetPunchDamage(Config.Damage.FakerPunch)
@@ -248,7 +251,7 @@ local function ShuffleHunterSpawnPoints()
 		for i = #shuffledHunterSpawnPoints, 2, -1 do
 			local j = math.random(i)
 			shuffledHunterSpawnPoints[i], shuffledHunterSpawnPoints[j] =
-				shuffledHunterSpawnPoints[j], shuffledHunterSpawnPoints[i]
+					shuffledHunterSpawnPoints[j], shuffledHunterSpawnPoints[i]
 		end
 	end
 
