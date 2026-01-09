@@ -38,6 +38,9 @@ Character.Subscribe(
 		if self == nil then
 			return
 		end
+		for i, v in pairs(self:GetAttachedEntities()) do
+			v:SetLifeSpan(1)
+		end
 		if self:GetTeam() == 0 then
 			local character = instigator:GetControlledCharacter()
 			character:ApplyDamage(Config.Damage.BotDeathToHunter)

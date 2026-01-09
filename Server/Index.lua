@@ -169,9 +169,12 @@ function SpawnPlayers()
 		shuffledCharacters[i], shuffledCharacters[j] = shuffledCharacters[j], shuffledCharacters[i]
 	end
 
-	-- Assign characters to players
+	-- Initialize player stats and assign characters to players
 	local characterIndex = 1
 	for _, player in pairs(playerList) do
+		-- Initialize player stats (ensures server-side cache is set up)
+		InitializePlayerStats(player)
+		
 		local playerId = player:GetID()
 		if selectedHunters[playerId] then
 			Console.Log("Player " .. player:GetName() .. " assigned as HUNTER")

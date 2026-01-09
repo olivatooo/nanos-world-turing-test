@@ -28,11 +28,12 @@ function TransitionToStage(newStage)
 			GameState.AmountOfTotalHuntersKilled = 0
 			GameState.AmountOfPropsDelivered = 0
 
-			-- Store each player's current score as the round start score
+			-- Initialize player stats and store each player's current score as the round start score
 			roundStartScores = {}
 			for _, player in pairs(Player.GetAll()) do
+				InitializePlayerStats(player)
 				local playerId = player:GetID()
-				local currentScore = player:GetValue("Score") or 0
+				local currentScore = GetPlayerScore(player)
 				roundStartScores[playerId] = currentScore
 			end
 

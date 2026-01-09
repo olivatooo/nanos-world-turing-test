@@ -3,9 +3,9 @@ function Tomato(player)
 	if character == nil then
 		return
 	end
-	local control_rotation = character:GetControlRotation()
+	local control_rotation = character:GetControlRotation() + Rotator(30, 0, 0)
 	local forward_vector = control_rotation:GetForwardVector()
-	local spawn_location = character:GetLocation() + Vector(0, 0, 50) + forward_vector * 150
+	local spawn_location = character:GetLocation() + Vector(0, 0, 50) + forward_vector * 200
 
 	local prop = Prop(spawn_location, Rotator.Random(true), "nanos-world::SM_Tomato")
 	prop:SetValue("IsFake", true, true)
@@ -22,16 +22,18 @@ function Tomato(player)
 		)
 		Console.Log(normal_impulse)
 		Events.BroadcastRemote("TomatoDecal", impact_location, normal_impulse)
-		self:Destroy()
-		local trigger = Trigger(Vector(), Rotator(), Vector(100), nil, false, Color(1, 0, 0))
+		local trigger = Trigger(self:GetLocation(), Rotator(), Vector(100), nil, false, Color(1, 0, 0))
 		trigger:SetOverlapOnlyClasses({ "Character" })
 		trigger:Subscribe("BeginOverlap", function(_, other)
+			Console.Log(other)
 			local hit = other:GetPlayer()
 			if hit then
 				Events.CallRemote("Tomato", player)
+				Events.BroadcastRemote("PlaySFXAt", self:GetLocation(), "squish.ogg")
 			end
 		end)
 		trigger:SetLifeSpan(1)
+		self:Destroy()
 	end)
 end
 

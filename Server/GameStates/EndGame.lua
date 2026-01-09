@@ -33,13 +33,14 @@ function EndGame()
 	end
 
 	-- Collect per-round scores for each player
+	-- Use server-side score cache (GetPlayerScore) instead of GetValue to avoid timing issues
 	Console.Log("=== Round Scores ===")
 	local roundScoreboard = {}
 	local players = Player.GetAll()
 	for _, player in pairs(players) do
 		local playerId = player:GetID()
 		local playerName = player:GetName()
-		local currentScore = player:GetValue("Score") or 0
+		local currentScore = GetPlayerScore(player)
 		local roundStartScore = roundStartScores and roundStartScores[playerId] or 0
 		local roundScore = currentScore - roundStartScore
 
@@ -50,13 +51,13 @@ function EndGame()
 		table.insert(roundScoreboard, {
 			name = playerName,
 			score = roundScore,
-			kills = player:GetValue("Kills") or 0,
-			deaths = player:GetValue("Deaths") or 0,
-			deliveries = player:GetValue("Deliveries") or 0,
+			kills = GetPlayerKills(player),
+			deaths = GetPlayerDeaths(player),
+			deliveries = GetPlayerDeliveries(player),
 			avatar = player:GetAccountIconURL(),
 		})
 
-		Console.Log(string.format("%s: %d points", playerName, roundScore))
+		Console.Log(string.format("%s: %d points (current: %d, start: %d)", playerName, roundScore, currentScore, roundStartScore))
 	end
 	Console.Log("===================")
 

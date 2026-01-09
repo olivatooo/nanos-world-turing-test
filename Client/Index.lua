@@ -1,6 +1,7 @@
 Package.Require("Debug.lua")
 Package.Require("Utils.lua")
-Client.SetDebugEnabled(true)
+Package.Require("TeamIndicator.lua")
+Client.SetDebugEnabled(false)
 Sky.Spawn()
 Sky.SetTimeOfDay(11, 0)
 Sky.SetSunLightIntensity(10)

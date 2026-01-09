@@ -896,7 +896,7 @@ function Tomato() {
         if (tomato.parentNode) {
             tomato.parentNode.removeChild(tomato);
         }
-    }, 3000);
+    }, 8000);
 }
 
 // Expose functions to window for Lua integration

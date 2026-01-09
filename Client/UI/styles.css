@@ -1520,7 +1520,7 @@ body.theme-red .nav-button.primary {
     position: fixed;
     pointer-events: none;
     z-index: 9999;
-    animation: tomatoFadeOut 3s ease-out forwards;
+    animation: tomatoFadeOut 8s ease-out forwards;
     transform-origin: center center;
 }
 

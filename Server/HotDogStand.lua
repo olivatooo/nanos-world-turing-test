@@ -1,8 +1,22 @@
 HotDogStandPossibleSpawnPoints = Server.GetMapConfig().hotdog_spawn_points
 
+function AddHotDogMarker(hot_dog)
+	local cone = StaticMesh(Vector(), Rotator(-90, 90, 90), "nanos-world::SM_Cone", CollisionType.NoCollision)
+	cone:SetScale(Vector(0.5, 0.5, 0.5))
+	cone:AttachTo(hot_dog)
+	cone:SetRelativeLocation(Vector(0, 0, 650))
+	cone:SetRelativeRotation(Rotator(0, 90, 180))
+	cone:SetMaterial("nanos-world::M_Default_Translucent_Lit_Depth")
+	cone:SetMaterialColorParameter("Tint", Color(0, 1, 0))
+	cone:SetMaterialColorParameter("Emissive", Color(0, 1, 0))
+	Timer.SetInterval(function(_cone) end, 10, cone)
+end
+
 function SpawnHotDogStand(location, rotation)
 	local hotdog_stand =
 		StaticMesh(location, Rotator(0, math.random(-45, 45), 0), "polygon-city::SM_Prop_HotdogStand_01")
+
+	AddHotDogMarker(hotdog_stand)
 	hotdog_stand:SetValue("HotDogStand", true, true)
 	hotdog_stand:SetScale(
 		Vector(Config.Spawns.HotDogStandScale, Config.Spawns.HotDogStandScale, Config.Spawns.HotDogStandScale)
