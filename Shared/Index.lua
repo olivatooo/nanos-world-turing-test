@@ -1,3 +1,4 @@
+Maps = {"tt-polygon-city", "tt-polygon-city-plaza"}
 GameState = {}
 Achievement = { Damage = 0, Kills = 0, Jumps = 0, Throws = 0, Deliveries = 0 }
 

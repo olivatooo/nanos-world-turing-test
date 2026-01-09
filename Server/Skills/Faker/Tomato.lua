@@ -23,6 +23,15 @@ function Tomato(player)
 		Console.Log(normal_impulse)
 		Events.BroadcastRemote("TomatoDecal", impact_location, normal_impulse)
 		self:Destroy()
+		local trigger = Trigger(Vector(), Rotator(), Vector(100), nil, false, Color(1, 0, 0))
+		trigger:SetOverlapOnlyClasses({ "Character" })
+		trigger:Subscribe("BeginOverlap", function(_, other)
+			local hit = other:GetPlayer()
+			if hit then
+				Events.CallRemote("Tomato", player)
+			end
+		end)
+		trigger:SetLifeSpan(1)
 	end)
 end
 

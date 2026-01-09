@@ -1,3 +1,7 @@
+Events.SubscribeRemote("Tomato", function()
+	WebUI:CallEvent("Tomato")
+end)
+
 function Tomato()
 	Events.CallRemote("Tomato")
 end

@@ -1450,3 +1450,23 @@ body.theme-red .nav-button.primary {
     transition: width 0.1s linear;
     box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
 }
+
+/* Tomato Animation */
+.tomato-element {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    animation: tomatoFadeOut 3s ease-out forwards;
+    transform-origin: center center;
+}
+
+@keyframes tomatoFadeOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(var(--tomato-scale, 1));
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(100px) scale(var(--tomato-scale, 1));
+    }
+}

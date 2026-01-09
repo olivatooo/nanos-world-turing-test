@@ -52,8 +52,7 @@ local function ShuffleBotSpawnPoints()
 		-- Fisher-Yates shuffle algorithm
 		for i = #shuffledBotSpawnPoints, 2, -1 do
 			local j = math.random(i)
-			shuffledBotSpawnPoints[i], shuffledBotSpawnPoints[j] =
-				shuffledBotSpawnPoints[j], shuffledBotSpawnPoints[i]
+			shuffledBotSpawnPoints[i], shuffledBotSpawnPoints[j] = shuffledBotSpawnPoints[j], shuffledBotSpawnPoints[i]
 		end
 	end
 
@@ -65,26 +64,25 @@ end
 ShuffleBotSpawnPoints()
 
 function SpawnBots(amount_x, amount_y)
-	-- Check if we need to reshuffle (all spawn points used)
-	if currentBotSpawnPointIndex >= #shuffledBotSpawnPoints then
-		ShuffleBotSpawnPoints()
-	end
-
-	-- Get the next spawn point from shuffled list
-	local location
-	if #shuffledBotSpawnPoints > 0 then
-		currentBotSpawnPointIndex = currentBotSpawnPointIndex + 1
-		local spawnPoint = shuffledBotSpawnPoints[currentBotSpawnPointIndex]
-		location = spawnPoint.location
-	else
-		-- Fallback to default location if no spawn points configured
-		location = Vector(-6000, 2115, 100)
-	end
-
-	local offset = Config.Bots.SpawnOffset
 	for i = 1, amount_x do
 		for j = 1, amount_y do
-			local mannequin = SpawnCharacter(location + Vector(i * offset, j * offset, 0))
+			-- Check if we need to reshuffle (all spawn points used)
+			if currentBotSpawnPointIndex >= #shuffledBotSpawnPoints then
+				ShuffleBotSpawnPoints()
+			end
+
+			-- Get the next spawn point from shuffled list for this mannequin
+			local location
+			if #shuffledBotSpawnPoints > 0 then
+				currentBotSpawnPointIndex = currentBotSpawnPointIndex + 1
+				local spawnPoint = shuffledBotSpawnPoints[currentBotSpawnPointIndex]
+				location = spawnPoint.location
+			else
+				-- Fallback to default location if no spawn points configured
+				location = Vector(-6000, 2115, 100)
+			end
+
+			local mannequin = SpawnCharacter(location)
 			mannequin:SetAIAvoidanceSettings(true, 10)
 			mannequin:SetCollision(CollisionType.IgnoreOnlyPawn)
 			SetCharacterAppeareance(mannequin)

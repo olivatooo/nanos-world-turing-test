@@ -840,6 +840,35 @@ function HideEMP() {
     }
 }
 
+// Tomato Management
+function Tomato() {
+    // Create tomato image element
+    const tomato = document.createElement('img');
+    tomato.src = 'Icons/tomato.png';
+    tomato.className = 'tomato-element';
+    tomato.alt = 'Tomato';
+    
+    // Random scale between 0.5 and 2.0
+    const randomScale = Math.random() * 1.5 + 0.5;
+    tomato.style.setProperty('--tomato-scale', randomScale);
+    
+    // Random position on screen
+    const randomX = Math.random() * (window.innerWidth - 100);
+    const randomY = Math.random() * (window.innerHeight - 100);
+    tomato.style.left = randomX + 'px';
+    tomato.style.top = randomY + 'px';
+    
+    // Add to body
+    document.body.appendChild(tomato);
+    
+    // Remove element after animation completes (3 seconds)
+    setTimeout(() => {
+        if (tomato.parentNode) {
+            tomato.parentNode.removeChild(tomato);
+        }
+    }, 3000);
+}
+
 // Expose functions to window for Lua integration
 window.TuringTestUI = {
     showPage,
@@ -863,7 +892,8 @@ window.TuringTestUI = {
     playRandomUISound,
     Blindfold,
     EMP,
-    HideEMP
+    HideEMP,
+    Tomato
 };
 
 Events.Subscribe("playRandomUISound", playRandomUISound);
@@ -888,6 +918,7 @@ Events.Subscribe("showHowToPlayByStage", showHowToPlayByStage);
 Events.Subscribe("Blindfold", Blindfold);
 Events.Subscribe("EMP", EMP);
 Events.Subscribe("HideEMP", HideEMP);
+Events.Subscribe("Tomato", Tomato);
 
 
 // Initialize themes for how-to pages
