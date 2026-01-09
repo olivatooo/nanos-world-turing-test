@@ -24,7 +24,7 @@ Player.Subscribe("Possess", function(self, character)
 			return
 		end
 		for k, v in pairs(Character.GetAll()) do
-			if v:GetTeam() == character:GetTeam() then
+			if v:GetTeam() == character:GetTeam() and character ~= v then
 				AddHeadMarker(v, character:GetTeam())
 			end
 		end

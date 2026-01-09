@@ -3,7 +3,7 @@ function Tomato(player)
 	if character == nil then
 		return
 	end
-	local control_rotation = character:GetControlRotation() + Rotator(30, 0, 0)
+	local control_rotation = character:GetControlRotation() + Rotator(10, 0, 0)
 	local forward_vector = control_rotation:GetForwardVector()
 	local spawn_location = character:GetLocation() + Vector(0, 0, 50) + forward_vector * 200
 
@@ -22,14 +22,13 @@ function Tomato(player)
 		)
 		Console.Log(normal_impulse)
 		Events.BroadcastRemote("TomatoDecal", impact_location, normal_impulse)
-		local trigger = Trigger(self:GetLocation(), Rotator(), Vector(100), nil, false, Color(1, 0, 0))
+		local trigger = Trigger(self:GetLocation(), Rotator(), Vector(300), nil, false, Color(1, 0, 0))
 		trigger:SetOverlapOnlyClasses({ "Character" })
-		trigger:Subscribe("BeginOverlap", function(_, other)
-			Console.Log(other)
+		trigger:Subscribe("BeginOverlap", function(t, other)
 			local hit = other:GetPlayer()
 			if hit then
-				Events.CallRemote("Tomato", player)
-				Events.BroadcastRemote("PlaySFXAt", self:GetLocation(), "squish.ogg")
+				Events.CallRemote("Tomato", hit)
+				Events.BroadcastRemote("PlaySFXAt", t:GetLocation(), "squish.ogg")
 			end
 		end)
 		trigger:SetLifeSpan(1)

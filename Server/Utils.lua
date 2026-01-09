@@ -5,17 +5,7 @@ end
 function GetRandomVector(mannequin)
 	-- Get random prop spawn point
 	local location
-	if PropPossibleSpawnPoints and #PropPossibleSpawnPoints > 0 then
-		-- Select random spawn point from prop spawn points
-		local randomSpawnPoint = PropPossibleSpawnPoints[math.random(#PropPossibleSpawnPoints)]
-		location = randomSpawnPoint.location
-		-- Add random offset from -250 to 250 to each axis
-		location = location + Vector(RandomFloat(-250, 250), RandomFloat(-250, 250), RandomFloat(-250, 250))
-	else
-		Console.Log("No prop spawn points available")
-		-- Fallback if no prop spawn points available
-		location = Vector(math.random(-10000, 10000), math.random(-10000, 10000), math.random(-2000, 2000))
-	end
+	location = mannequin:GetLocation() + Vector(math.random(-5000, 5000), math.random(-5000, 5000), math.random(100))
 
 	return {
 		x = location.X,
