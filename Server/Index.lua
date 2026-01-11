@@ -21,7 +21,7 @@ function SpawnCharacter(location)
 	local mannequin
 	if math.random() > 0.5 then
 		mannequin =
-				Character(Vector(location.X, location.Y, 200), Rotator(0, math.random(360), 0), "nanos-world::SK_Mannequin")
+			Character(Vector(location.X, location.Y, 200), Rotator(0, math.random(360), 0), "nanos-world::SK_Mannequin")
 	else
 		mannequin = Character(
 			Vector(location.X, location.Y, 200),
@@ -174,7 +174,7 @@ function SpawnPlayers()
 	for _, player in pairs(playerList) do
 		-- Initialize player stats (ensures server-side cache is set up)
 		InitializePlayerStats(player)
-		
+
 		local playerId = player:GetID()
 		if selectedHunters[playerId] then
 			Console.Log("Player " .. player:GetName() .. " assigned as HUNTER")
@@ -254,7 +254,7 @@ local function ShuffleHunterSpawnPoints()
 		for i = #shuffledHunterSpawnPoints, 2, -1 do
 			local j = math.random(i)
 			shuffledHunterSpawnPoints[i], shuffledHunterSpawnPoints[j] =
-					shuffledHunterSpawnPoints[j], shuffledHunterSpawnPoints[i]
+				shuffledHunterSpawnPoints[j], shuffledHunterSpawnPoints[i]
 		end
 	end
 
@@ -299,3 +299,16 @@ function SpawnHunter(player)
 	character:SetCanGrabProps(false)
 	player:Possess(character)
 end
+
+Player.Subscribe("Spawn", function(player)
+	Server.BroadcastChatMessage("<cyan>" .. player:GetName() .. "</> has joined the server")
+end)
+
+Player.Subscribe("Destroy", function(player)
+	local character = player:GetControlledCharacter()
+	if character then
+		character:ApplyDamage(100000)
+		character:Destroy()
+	end
+	Server.BroadcastChatMessage("<cyan>" .. player:GetName() .. "</> has left the server")
+end)
