@@ -55,7 +55,7 @@ Config.Bots = {
 -- Spawn Configuration
 Config.Spawns = {
 	-- Props
-	PropsPerHunter = 3, -- Initial props spawned per hunter
+	PropsPerHunter = 1, -- Initial props spawned per hunter
 	PropsPerHunterPeriodic = 1, -- Props spawned per hunter every interval
 	PropsPerFaker = 1, -- Props each faker starts with
 	PropSpawnInterval = 15, -- Seconds between periodic prop spawns
