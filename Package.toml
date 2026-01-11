@@ -5,7 +5,7 @@
     # contributors
     author =                "olivato"
     # version
-    version =               "0.0.30"
+    version =               "0.0.31"
 
 # game-mode configurations
 [game_mode]
