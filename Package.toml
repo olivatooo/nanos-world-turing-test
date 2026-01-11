@@ -5,7 +5,7 @@
     # contributors
     author =                "olivato"
     # version
-    version =               "0.0.32"
+    version =               "0.0.33"
 
 # game-mode configurations
 [game_mode]
@@ -22,6 +22,7 @@
                             "default-weapons",
                             "battlefield-kill-ui",
                             "rock-the-vote",
+                            "mothers-chatbox",
     ]
     # asset packs requirements
     assets_requirements = [
