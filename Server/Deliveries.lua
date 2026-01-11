@@ -1,13 +1,13 @@
 PropsToDeliver = {
-	{ "polygon-city::SM_Prop_LargeSign_Soda_01", Vector(1, 1, 1) },
-	{ "polygon-city::SM_Prop_LargeSign_Taco_01", Vector(1, 1, 1) },
-	{ "polygon-city::SM_Prop_LargeSign_Popcorn_01", Vector(1, 1, 1) },
-	{ "polygon-city::SM_Prop_LargeSign_Pizza_01", Vector(1, 1, 1) },
+	{ "polygon-city::SM_Prop_LargeSign_Soda_01",     Vector(1, 1, 1) },
+	{ "polygon-city::SM_Prop_LargeSign_Taco_01",     Vector(1, 1, 1) },
+	{ "polygon-city::SM_Prop_LargeSign_Popcorn_01",  Vector(1, 1, 1) },
+	{ "polygon-city::SM_Prop_LargeSign_Pizza_01",    Vector(1, 1, 1) },
 	{ "polygon-city::SM_Prop_LargeSign_Lollypop_01", Vector(1, 1, 1) },
-	{ "polygon-city::SM_Prop_LargeSign_Beer_01", Vector(1, 1, 1) },
-	{ "polygon-city::SM_Prop_LargeSign_Burger_01", Vector(1, 1, 1) },
-	{ "polygon-city::SM_Prop_LargeSign_Noodles_01", Vector(1, 1, 1) },
-	{ "polygon-city::SM_Prop_LargeSign_Donut_01", Vector(1, 1, 1) },
+	{ "polygon-city::SM_Prop_LargeSign_Beer_01",     Vector(1, 1, 1) },
+	{ "polygon-city::SM_Prop_LargeSign_Burger_01",   Vector(1, 1, 1) },
+	{ "polygon-city::SM_Prop_LargeSign_Noodles_01",  Vector(1, 1, 1) },
+	{ "polygon-city::SM_Prop_LargeSign_Donut_01",    Vector(1, 1, 1) },
 }
 
 PropPossibleSpawnPoints = Server.GetMapConfig().prop_spawn_points
@@ -72,9 +72,9 @@ function SpawnSingleProp(location)
 		else
 			resetLogged = false
 			if
-				(velocity.Z > 100 or velocity.X > 100 or velocity.Y > 100)
-				and _prop:GetHandler() == nil
-				and not wooshLogged
+					(velocity.Z > 100 or velocity.X > 100 or velocity.Y > 100)
+					and _prop:GetHandler() == nil
+					and not wooshLogged
 			then
 				Events.BroadcastRemote("WOOSH", _prop:GetLocation())
 				wooshLogged = true

@@ -68,16 +68,16 @@ function GetLocation()
 		if trace_result.Entity then
 			Console.Log(
 				"Trace Success! Entity: "
-					.. trace_result.Entity:GetClass():GetName()
-					.. ". Location: "
-					.. tostring(GetTruncatedVector(trace_result.Location))
+				.. trace_result.Entity:GetClass():GetName()
+				.. ". Location: "
+				.. tostring(GetTruncatedVector(trace_result.Location))
 			)
 
 			Chat.AddMessage(
 				"Trace Success! Entity: "
-					.. trace_result.Entity:GetClass():GetName()
-					.. ". Location: "
-					.. tostring(GetTruncatedVector(trace_result.Location))
+				.. trace_result.Entity:GetClass():GetName()
+				.. ". Location: "
+				.. tostring(GetTruncatedVector(trace_result.Location))
 			)
 		else
 			Console.Log("PropSpawn: ", tostring(GetTruncatedVector(trace_result.Location)))

@@ -5,7 +5,13 @@ end
 function GetRandomVector(mannequin)
 	-- Get random prop spawn point
 	local location
-	location = mannequin:GetLocation() + Vector(math.random(-5000, 5000), math.random(-5000, 5000), math.random(100))
+	local search_size = math.random(100, 2000)
+	if math.random() > 0.5 then
+		location = mannequin:GetLocation()
+				+ Vector(math.random(-search_size, search_size), math.random(-search_size, search_size), math.random(100))
+	else
+		location = PropPossibleSpawnPoints[math.random(1, #PropPossibleSpawnPoints)].location
+	end
 
 	return {
 		x = location.X,
