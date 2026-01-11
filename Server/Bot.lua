@@ -33,7 +33,7 @@ function SetCharacterBehaviour(character)
 		end
 		if math.random() > 0.5 and manny:GetMovingTo() == Vector(0, 0, 0) then
 			local location = GetRandomVector(manny)
-			manny:MoveTo(Vector(location.x, location.y, location.z), 10)
+			manny:MoveTo(Vector(location.x, location.y, location.z), math.random(10, 400))
 		end
 		if math.random() > 0.5 then
 			local location = GetRandomVector(manny)

@@ -1,13 +1,13 @@
 PropsToDeliver = {
-	{ "polygon-city::SM_Prop_LargeSign_Soda_01",     Vector(1, 1, 1) },
-	{ "polygon-city::SM_Prop_LargeSign_Taco_01",     Vector(1, 1, 1) },
-	{ "polygon-city::SM_Prop_LargeSign_Popcorn_01",  Vector(1, 1, 1) },
-	{ "polygon-city::SM_Prop_LargeSign_Pizza_01",    Vector(1, 1, 1) },
+	{ "polygon-city::SM_Prop_LargeSign_Soda_01", Vector(1, 1, 1) },
+	{ "polygon-city::SM_Prop_LargeSign_Taco_01", Vector(1, 1, 1) },
+	{ "polygon-city::SM_Prop_LargeSign_Popcorn_01", Vector(1, 1, 1) },
+	{ "polygon-city::SM_Prop_LargeSign_Pizza_01", Vector(1, 1, 1) },
 	{ "polygon-city::SM_Prop_LargeSign_Lollypop_01", Vector(1, 1, 1) },
-	{ "polygon-city::SM_Prop_LargeSign_Beer_01",     Vector(1, 1, 1) },
-	{ "polygon-city::SM_Prop_LargeSign_Burger_01",   Vector(1, 1, 1) },
-	{ "polygon-city::SM_Prop_LargeSign_Noodles_01",  Vector(1, 1, 1) },
-	{ "polygon-city::SM_Prop_LargeSign_Donut_01",    Vector(1, 1, 1) },
+	{ "polygon-city::SM_Prop_LargeSign_Beer_01", Vector(1, 1, 1) },
+	{ "polygon-city::SM_Prop_LargeSign_Burger_01", Vector(1, 1, 1) },
+	{ "polygon-city::SM_Prop_LargeSign_Noodles_01", Vector(1, 1, 1) },
+	{ "polygon-city::SM_Prop_LargeSign_Donut_01", Vector(1, 1, 1) },
 }
 
 PropPossibleSpawnPoints = Server.GetMapConfig().prop_spawn_points
@@ -18,7 +18,8 @@ local usedSpawnIndices = {}
 -- Function to spawn a single prop at a given location
 function SpawnSingleProp(location)
 	local prop_selection = PropsToDeliver[math.random(#PropsToDeliver)]
-	local prop = Prop(location, Rotator(), prop_selection[1], CollisionType.IgnoreOnlyPawn, false)
+	local prop = Prop(location + Vector(0, 0, 2000), Rotator(), prop_selection[1], CollisionType.IgnoreOnlyPawn, false)
+	prop:TranslateTo(location, 10, 2)
 	prop:SetScale(Vector(Config.Spawns.PropScale, Config.Spawns.PropScale, Config.Spawns.PropScale))
 	prop:SetGrabMode(GrabMode.Enabled)
 	prop:Subscribe("Interact", function(self, character)
@@ -72,9 +73,9 @@ function SpawnSingleProp(location)
 		else
 			resetLogged = false
 			if
-					(velocity.Z > 100 or velocity.X > 100 or velocity.Y > 100)
-					and _prop:GetHandler() == nil
-					and not wooshLogged
+				(velocity.Z > 100 or velocity.X > 100 or velocity.Y > 100)
+				and _prop:GetHandler() == nil
+				and not wooshLogged
 			then
 				Events.BroadcastRemote("WOOSH", _prop:GetLocation())
 				wooshLogged = true
@@ -139,26 +140,33 @@ function SpawnProps()
 	local availableSpawns = #PropPossibleSpawnPoints
 	local spawnCount = math.min(desiredCount, availableSpawns)
 
-	-- Shuffle spawn points
-	local shuffledSpawns = {}
+	-- Get available spawn points (not yet used)
+	local availableSpawnsList = {}
 	for i = 1, #PropPossibleSpawnPoints do
-		shuffledSpawns[i] = PropPossibleSpawnPoints[i].location
+		if not usedSpawnIndices[i] then
+			table.insert(availableSpawnsList, { index = i, location = PropPossibleSpawnPoints[i].location })
+		end
 	end
-	for i = #shuffledSpawns, 2, -1 do
+
+	if #availableSpawnsList == 0 then
+		-- All spawn points used, reset and use all
+		usedSpawnIndices = {}
+		for i = 1, #PropPossibleSpawnPoints do
+			table.insert(availableSpawnsList, { index = i, location = PropPossibleSpawnPoints[i].location })
+		end
+	end
+
+	-- Shuffle available spawns
+	for i = #availableSpawnsList, 2, -1 do
 		local j = math.random(i)
-		shuffledSpawns[i], shuffledSpawns[j] = shuffledSpawns[j], shuffledSpawns[i]
+		availableSpawnsList[i], availableSpawnsList[j] = availableSpawnsList[j], availableSpawnsList[i]
 	end
 
 	-- Spawn up to the calculated count
-	for i = 1, spawnCount do
-		local v = shuffledSpawns[i]
-		SpawnSingleProp(v)
-		-- Mark this spawn point as used
-		for j = 1, #PropPossibleSpawnPoints do
-			if PropPossibleSpawnPoints[j] == v then
-				usedSpawnIndices[j] = true
-				break
-			end
-		end
+	local actualSpawnCount = math.min(spawnCount, #availableSpawnsList)
+	for i = 1, actualSpawnCount do
+		local spawnData = availableSpawnsList[i]
+		SpawnSingleProp(spawnData.location)
+		usedSpawnIndices[spawnData.index] = true
 	end
 end

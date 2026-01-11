@@ -7,10 +7,19 @@ function GetRandomVector(mannequin)
 	local location
 	local search_size = math.random(100, 2000)
 	if math.random() > 0.5 then
-		location = mannequin:GetLocation()
-				+ Vector(math.random(-search_size, search_size), math.random(-search_size, search_size), math.random(100))
+		local char_location = mannequin:GetLocation()
+		location = Vector(
+			math.random(math.floor(char_location.X - search_size), math.floor(char_location.X + search_size)),
+			math.random(math.floor(char_location.Y - search_size), math.floor(char_location.Y + search_size)),
+			math.random(-100, 100)
+		)
 	else
 		location = PropPossibleSpawnPoints[math.random(1, #PropPossibleSpawnPoints)].location
+		location = Vector(
+			math.random(location.X - search_size, location.X + search_size),
+			math.random(location.Y - search_size, location.Y + search_size),
+			math.random(-100, 100)
+		)
 	end
 
 	return {
