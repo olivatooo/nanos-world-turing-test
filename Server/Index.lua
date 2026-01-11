@@ -301,7 +301,7 @@ function SpawnHunter(player)
 end
 
 Player.Subscribe("Spawn", function(player)
-	Chat.BroadcastChatMessage("<cyan>" .. player:GetName() .. "</> has joined the server")
+	Chat.BroadcastMessage("<cyan>" .. player:GetName() .. "</> has joined the server")
 end)
 
 Player.Subscribe("Destroy", function(player)
@@ -310,5 +310,5 @@ Player.Subscribe("Destroy", function(player)
 		character:ApplyDamage(100000)
 		character:Destroy()
 	end
-	Chat.BroadcastChatMessage("<cyan>" .. player:GetName() .. "</> has left the server")
+	Chat.BroadcastMessage("<cyan>" .. player:GetName() .. "</> has left the server")
 end)
